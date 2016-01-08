@@ -30,7 +30,7 @@ if socket.gethostname() == 'tmwq.deskxd.org':
     ALLOWED_HOSTS = []
 else:
     DEBUG = TEMPLATE_DEBUG = False
-    ALLOWED_HOSTS = [".deskxd.org", "192.168.2.203", "*"]
+    ALLOWED_HOSTS = [".deskxd.org", "*"]
 
 
 # Application definition
@@ -88,7 +88,7 @@ if socket.gethostname() == 'tmwq.deskxd.org':
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'db_art_work_manager',
             'USER': 'root',
-            'PASSWORD': 'root',
+            'PASSWORD': 'mysqlroot',
             'HOST': 'localhost',
         }
     }
@@ -99,7 +99,7 @@ else:
             'NAME': 'db_art_work_manager',
             'USER': 'django',
             'PASSWORD': 'django',
-            'HOST': '192.168.2.201',
+            'HOST': 'sql.deskxd.org',
         }
     }
 
