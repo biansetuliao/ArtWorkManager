@@ -43,6 +43,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+    'login',
+    'manager',
+    'art',
+    'developer',
+    'plan',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -61,8 +66,7 @@ ROOT_URLCONF = 'ArtWorkManager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

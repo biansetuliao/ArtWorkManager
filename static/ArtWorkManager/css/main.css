@@ -1,0 +1,89 @@
+.login{
+    width: 360px;
+    padding: 20px;
+    margin:  0 auto;
+    margin-top: 50px;
+}
+
+.login h2{
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login h1{
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.username,
+.sign_in{
+    margin-bottom: 20px;
+}
+
+.password{
+    margin-bottom: 20px;
+}
+
+.error{
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #CC3434;
+    font-weight: 900;
+    text-align: center;
+}
+
+.sign_in input{
+    width: 100%;
+    height: 40px;
+    background: #f1686a !important;
+    color: #ffffff;
+    border: none !important;
+    font-size: 18px;
+}
+
+.sign_in input:hover{
+    color: #ffffff !important;
+    background: #ef5153 !important;
+}
+
+.menu{
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 30px;
+    border-bottom: 2px solid #000000;
+}
+
+.menu .row h2{
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+#username{
+    font-size: 18px;
+    text-align: right;
+    margin-right: 20px;
+    margin-top: 25px;
+}
+
+#username a{
+    border-left: 2px solid #000000;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+.content{
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.content table{
+    width: 300px;
+    margin: 0 auto;
+}
+
+.content a button{
+    width: 300px;
+    height: 40px;
+    font-size: 18px;
+}

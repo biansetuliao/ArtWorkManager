@@ -1,0 +1,21 @@
+{% extends 'PlanBase.html' %}
+{% block content %}
+
+    <div class="menu">
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>ArtWorkManager <small>策划人员</small></h2>
+            </div>
+            <div class="col-xs-6">
+                <h2 id="username">
+                    {{ user.username }}<a href="{% url 'login:sign_out' %}">Sign out</a>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div>
+
+    </div>
+
+{% endblock %}

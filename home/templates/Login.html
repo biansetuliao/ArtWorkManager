@@ -1,0 +1,24 @@
+{% extends 'Base.html' %}
+{% block content %}
+    <form method="post" action="{% url 'login:sign_in' %}">
+        {% csrf_token %}
+        <div class="login">
+            <h2><strong>ArtWorkManager</strong></h2>
+            <h1><small>Please log in</small></h1>
+            <div class="username">
+                <input type="text" name="username" class="form-control input-sm" placeholder="UserName" style="height: 40px;">
+            </div>
+            <div class="password">
+                <input type="password" name="password" class="form-control input-sm" placeholder="Password" style="height: 40px;">
+            </div>
+            <div class="error">
+                {% if error_txt %}
+                    {{ error_txt }}
+                {% endif %}
+            </div>
+            <div class="sign_in">
+                <input type="submit" class="btn btn-default btn-sm" id="sign" value="LOG IN">
+            </div>
+        </div>
+    </form>
+{% endblock %}

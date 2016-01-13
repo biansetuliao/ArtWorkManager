@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static from staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <title>ArtWorkManager | 管理员</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'ArtWorkManager/css/main.css' %}" >
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div class="menu">
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>ArtWorkManager <small>管理员</small></h2>
+            </div>
+            <div class="col-xs-6">
+                <h2 id="username">
+                    {{ user.username }}<a href="{% url 'login:sign_out' %}">Sign out</a>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td style="border: none;"><a href="/admin"><button class="btn btn-sm btn-default" type="button" >Administration</button></a></td>
+                </tr>
+                <tr>
+                    <td style="border: none;"><a href="/plan"><button class="btn btn-sm btn-default" type="button" >Plan</button></a></td>
+                </tr>
+                <tr>
+                    <td style="border: none;"><a href="/art"><button class="btn btn-sm btn-default" type="button" >Art</button></a></td>
+                </tr>
+                <tr>
+                    <td style="border: none;"><a href="/developer"><button class="btn btn-sm btn-default" type="button" >Developer</button></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
