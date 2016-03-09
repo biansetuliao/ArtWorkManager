@@ -25,12 +25,13 @@ SECRET_KEY = 'xz_xta+vt*xzwk@zwl3f(fw2)mjw$2nng2y0g_-0op42!2crq3'
 # SECURITY WARNING: don't run with debug turned on in production!
 import socket
 
-# if socket.gethostname() == 'tmwq.deskxd.org':
-DEBUG = TEMPLATE_DEBUG = True
-ALLOWED_HOSTS = []
-# else:
-#     DEBUG = TEMPLATE_DEBUG = False
-#     ALLOWED_HOSTS = [".deskxd.org", "*"]
+if socket.gethostname() == 'iZ94w8pccftZ':
+    DEBUG = TEMPLATE_DEBUG = False
+    ALLOWED_HOSTS = ["120.24.169.1", "*"]
+else:
+    DEBUG = TEMPLATE_DEBUG = True
+    ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -86,26 +87,26 @@ WSGI_APPLICATION = 'ArtWorkManager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-# if socket.gethostname() == 'tmwq.deskxd.org':
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_art_work_manager',
-        'USER': 'root',
-        'PASSWORD': 'mysqlroot',
-        'HOST': 'localhost',
+if socket.gethostname() == 'iZ94w8pccftZ':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'db_art_work_manager',
+            'USER': 'root',
+            'PASSWORD': 'root',
+            'HOST': 'localhost',
+        }
     }
-}
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.mysql',
-#             'NAME': 'db_art_work_manager',
-#             'USER': 'django',
-#             'PASSWORD': 'django',
-#             'HOST': 'sql.deskxd.org',
-#         }
-#     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'db_art_work_manager',
+            'USER': 'root',
+            'PASSWORD': 'mysqlroot',
+            'HOST': 'localhost',
+        }
+    }
 
 
 # Internationalization
