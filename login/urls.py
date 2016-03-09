@@ -7,4 +7,7 @@ urlpatterns = [
 
     # ex: /sign_out/
     url(r'^sign_out/$', views.sign_out, name='sign_out'),
+
+    # ex: /sign_success/
+    url(r'^menu/$', views.MenuViews.as_view(), name='menu'),
 ]

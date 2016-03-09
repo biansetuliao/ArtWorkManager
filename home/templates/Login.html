@@ -1,15 +1,21 @@
 {% extends 'Base.html' %}
 {% block content %}
-    <form method="post" action="{% url 'login:sign_in' %}">
+
+    <form method="post" action="{% url 'login:sign_in' %}" class="form-horizontal">
         {% csrf_token %}
         <div class="login">
-            <h2><strong>ArtWorkManager</strong></h2>
-            <h1><small>Please log in</small></h1>
-            <div class="username">
-                <input type="text" name="username" class="form-control input-sm" placeholder="UserName" style="height: 40px;">
+            <div id="line">
+                <h3>ArtWorkManager</h3>
+                <h5>美术资源管理系统</h5>
             </div>
-            <div class="password">
-                <input type="password" name="password" class="form-control input-sm" placeholder="Password" style="height: 40px;">
+            <h3>用户登录</h3>
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" name="username" class="form-control" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <label for="password">密　码</label>
+                <input type="password" name="password" class="form-control" placeholder="Password">
             </div>
             <div class="error">
                 {% if error_txt %}
@@ -21,4 +27,5 @@
             </div>
         </div>
     </form>
+
 {% endblock %}

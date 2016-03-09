@@ -1,7 +1,17 @@
 from django.shortcuts import render
 from django.views import generic
-from login import views
 from django.http import HttpResponse, HttpResponseRedirect
+from home.models import *
+
+
+def is_sign_in(request):
+    if not request.user.is_authenticated():
+        return ('/?next=%s' % request.path)
+    else:
+        if request.user.has_perm('home.can_plan'):
+            return
+        else:
+            return ('/login/menu')
 
 
 class IndexView(generic.View):
@@ -9,16 +19,17 @@ class IndexView(generic.View):
 
     def get(self, request):
 
-        if request.user.is_authenticated():
-            permission = views.user_permission(request, 'plan')
-            if permission:
-                return HttpResponseRedirect(permission)
-
-        is_log_in = views.is_sign_in(request)
+        is_log_in = is_sign_in(request)
         if is_log_in:
             return HttpResponseRedirect(is_log_in)
 
-        context = {}
+        group_list = list(Group.objects.all())
+        if not group_list:
+            return HttpResponseRedirect('/manager')
+
+        context = {
+            'group_list': group_list
+        }
 
         return render(request,
                       self.templates_file,

@@ -18,12 +18,18 @@ class Group(models.Model):
             ("can_art", "can art"),
         )
 
+    def __unicode__(self):
+        return self.name
+
 
 # Tag and Group To Tag
 
 class Tag(models.Model):
     code = models.IntegerField(unique=True)
     name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
 
 
 class GroupToTag(models.Model):
@@ -59,19 +65,15 @@ def resource_file_path(instance, filename):
     return '/'.join([instance.group.name, 'resource', time.strftime('%m%d', time.localtime(time.time())), filename])
 
 class Art(models.Model):
-    user = models.ForeignKey(User)
+    user = models.CharField(max_length=100)
     group = models.ForeignKey(Group)
     description = models.TextField()
     priority = models.IntegerField(unique=True)
     version = models.CharField(max_length=50)
     upload_time = models.DateTimeField(auto_now_add=True)
+    screen_shot = models.ImageField(upload_to=screen_shot_path, null=True)
+    resource_file = models.FileField(upload_to=resource_file_path, null=True)
     is_audit = models.BooleanField(default=False)
-    screen_shot = models.ImageField(upload_to=screen_shot_path)
-    resource_file = models.FileField(upload_to=resource_file_path)
-
-
-class ArtAudit(models.Model):
-    art = models.ForeignKey(Art)
     is_pass = models.BooleanField(default=False)
     reason = models.TextField(null=True)
 

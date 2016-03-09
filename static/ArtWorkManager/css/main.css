@@ -1,23 +1,62 @@
 .login{
-    width: 360px;
+    width: 350px;
+    height: 400px;
+    margin:  auto;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 2px solid #337ab7;
+}
+
+.login #line h3{
+    margin: 0;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.login h5{
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+.login h3{
+    text-align: left;
+    margin: 0;
     padding: 20px;
-    margin:  0 auto;
-    margin-top: 50px;
 }
 
-.login h2{
-    margin-bottom: 20px;
-    text-align: center;
+.login h2 strong{
+    border-right: 2px solid #34495E;
+    margin-right: 10px;
+    padding-right: 30px;
 }
 
-.login h1{
-    margin-bottom: 15px;
-    text-align: center;
+#line{
+    width: 100%;
+    margin: auto;
+    background: #337ab7;
+    color: #ffffff;
+}
+
+.login input{
+    width: 300px;
+}
+
+.login .form-group{
+    margin-left: 20px;
+    margin-right: 0;
+    margin-bottom: 15px !important;
+    text-align: left;
 }
 
 .username,
 .sign_in{
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .password{
@@ -25,7 +64,6 @@
 }
 
 .error{
-    margin-bottom: 20px;
     font-size: 14px;
     color: #CC3434;
     font-weight: 900;
@@ -33,57 +71,200 @@
 }
 
 .sign_in input{
-    width: 100%;
+    width: 230px;
     height: 40px;
-    background: #f1686a !important;
+    background: #337ab7 !important;
     color: #ffffff;
     border: none !important;
     font-size: 18px;
+    margin-top: 10px;
 }
 
 .sign_in input:hover{
     color: #ffffff !important;
-    background: #ef5153 !important;
+    background: #337ab7 !important;
+    opacity: 0.7;
 }
 
 .menu{
-    width: 60%;
+    width: 800px;
     margin: 0 auto;
-    margin-top: 30px;
-    border-bottom: 2px solid #000000;
+    color: #34495E;
+    padding-top: 20px;
 }
 
 .menu .row h2{
     margin-top: 10px;
-    margin-left: 20px;
+    margin-left: 10px;
+    color: #34495E;
+}
+
+.menus{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background: #337ab7;
+    height: 50px;
+    line-height: 50px;
+    color: #ffffff;
+}
+
+.menus .row{
+    width: 1000px;
+    margin: 0 auto;
+    height: 50px;
+    line-height: 50px;
+}
+
+.menus .row h3{
+    margin: 0;
+    height: 50px;
+    line-height: 50px;
+}
+
+.menus .row h3 small{
+    color: #ffffff;
+}
+
+.menus .row #username{
+    margin: 0;
+    height: 50px;
+    line-height: 50px;
+}
+
+.menus .row #username a{
+    text-decoration: #ffffff;
+    color: #ffffff;
+}
+
+#menu{
+    width: 800px;
+    height: 350px;
+    margin:  auto;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.5);
 }
 
 #username{
     font-size: 18px;
     text-align: right;
-    margin-right: 20px;
-    margin-top: 25px;
+    margin-right: 10px;
+    margin-top: 20px;
 }
 
 #username a{
-    border-left: 2px solid #000000;
-    margin-left: 10px;
-    padding-left: 10px;
+    margin-right: 20px;
 }
 
-.content{
-    width: 60%;
+.content,
+.plan{
+    width: 700px;
     margin: 0 auto;
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
-.content table{
-    width: 300px;
-    margin: 0 auto;
+.content .row{
+    text-align: center;
+    margin-bottom: 20px;
+    color: #34495E;
+}
+
+.content .row a{
+    text-decoration: none;
+}
+
+.content .row a:hover{
+    text-decoration: none;
 }
 
 .content a button{
     width: 300px;
     height: 40px;
     font-size: 18px;
+    background: #2C3E50;
+    color: #ffffff;
+}
+
+.content a button:hover{
+    background: #34495E;
+    color: #ffffff;
+}
+
+#description{
+    height: 250px;
+    resize: none;
+}
+
+#tag_info h4{
+    text-align: center;
+    margin-top: 40px;
+}
+
+.plan h2{
+    color: #000000;
+}
+
+
+.row-name{
+    height: 40px;
+    line-height: 40px;
+    background: #34495E;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.row-txt{
+    height: 40px;
+    line-height: 40px;
+    color: #34495E;
+    border-right: 2px solid #34495E;
+    border-left: 2px solid #34495E;
+    border-bottom: 2px solid #34495E;
+}
+
+.manager{
+    width: 1000px;
+    margin:  0 auto;
+    margin-top: 20px;
+}
+
+.manager .row ul{
+    width: 100%;
+    height: 300px;
+    list-style: none;
+    padding: 0;
+}
+
+.manager .row ul li{
+    width: 100%;
+    color: #000000;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.manager .row ul li:hover{
+    width: 100%;
+    background: #337ab7;
+}
+
+.manager .row ul li:hover a{
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.manager .row .col-xs-3{
+    /*border: 2px solid #337ab7;*/
+    background: #f0f0f0;
+}
+
+.manager-panel{
+    width: 100%;
+    height: 50px;
 }

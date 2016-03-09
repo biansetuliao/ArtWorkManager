@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="{% static 'ArtWorkManager/css/main.css' %}" >
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            var H = $(window).height();
+            document.getElementById('loginbase').style.height = H + 'px';
+        });
+
+        $(window).resize(function () {
+            var H = $(window).height();
+            document.getElementById('loginbase').style.height = H + 'px';
+        });
+    </script>
 </head>
 <body>
     {% block content %}

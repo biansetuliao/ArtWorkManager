@@ -5,4 +5,12 @@ urlpatterns = [
 
     url(r'^$', views.IndexView.as_view(), name='administrator'),
 
+    url(r'^tag', views.TagView.as_view(), name='tag'),
+
+    # ADD
+
+    url(r'^add', views.create, name='add'),
+
+
+
 ]

@@ -12,9 +12,7 @@ class LoginView(generic.View):
     def get(self, request):
 
         if request.user.is_authenticated():
-            permission = views.user_permission(request, 'sign')
-            if permission:
-                return HttpResponseRedirect(permission)
+            return HttpResponseRedirect('/login/menu')
 
         if 'error' in request.GET and request.GET['error']:
             error_code = request.GET['error']
