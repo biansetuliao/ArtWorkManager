@@ -8,81 +8,67 @@
     <link rel="stylesheet" href="{% static 'ArtWorkManager/css/main.css' %}" >
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script>
-        $(function () {
-            var H = $(window).height();
-            document.getElementById('loginbase').style.height = H + 'px';
-        });
-
-        $(window).resize(function () {
-            var H = $(window).height();
-            document.getElementById('loginbase').style.height = H + 'px';
-        });
-    </script>
 </head>
 <body>
 
-    <div id="loginbase">
+    <div class="menus">
+        <div class="row">
+            <div class="col-xs-7">
+                <h3>ArtWorkManager <small>美术资源管理系统</small></h3>
+            </div>
+            <div class="col-xs-5">
+                <h2 id="username">
+                    <span class="glyphicon glyphicon-user"></span>{{ user.username }}　
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                    <a href="{% url 'login:sign_out' %}">退出</a>
+                </h2>
+            </div>
+        </div>
+    </div>
 
-        <div id="menu">
-            <div class="menu">
-                <div class="row">
-                    <div class="col-xs-7">
-                        <h2>ArtWorkManager <small>美术资源管理系统</small></h2>
-                    </div>
-                    <div class="col-xs-5">
-                        <h2 id="username">
-                            <span class="glyphicon glyphicon-user"></span>{{ user.username }}　
-                            <span class="glyphicon glyphicon-share-alt"></span>
-                            <a href="{% url 'login:sign_out' %}">退出</a>
-                        </h2>
-                    </div>
+    <div id="menu">
+
+        <div class="content">
+
+            <div class="row">
+                <div class="col-xs-6">
+                    {% if perms.home.can_admin %}
+                        <a href="/manager"><div class="row-name">后台管理</div></a>
+                        <div class="row-txt">系统数据管理, 用户数据管理</div>
+                    {% else %}
+                        <div class="row-name">后台管理</div>
+                        <div class="row-txt">很抱歉,您没有使用该功能的权限</div>
+                    {% endif %}
+                </div>
+                <div class="col-xs-6">
+                    {% if perms.home.can_plan %}
+                        <a href="/plan"><div class="row-name">任务管理</div></a>
+                        <div class="row-txt">发布任务,审核任务,管理任务</div>
+                    {% else %}
+                        <div class="row-name">任务管理</div>
+                        <div class="row-txt">很抱歉,您没有使用该功能的权限</div>
+                    {% endif %}
                 </div>
             </div>
-
-            <div class="content">
-
-                <div class="row">
-                    <div class="col-xs-6">
-                        {% if perms.home.can_admin %}
-                            <a href="/manager"><div class="row-name">后台管理</div></a>
-                            <div class="row-txt">系统数据管理, 用户数据管理</div>
-                        {% else %}
-                            <div class="row-name">后台管理</div>
-                            <div class="row-txt">很抱歉,您没有使用该功能的权限</div>
-                        {% endif %}
-                    </div>
-                    <div class="col-xs-6">
-                        {% if perms.home.can_plan %}
-                            <a href="/plan"><div class="row-name">任务管理</div></a>
-                            <div class="row-txt">发布任务,审核任务,管理任务</div>
-                        {% else %}
-                            <div class="row-name">任务管理</div>
-                            <div class="row-txt">很抱歉,您没有使用该功能的权限</div>
-                        {% endif %}
-                    </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    {% if perms.home.can_art %}
+                        <a href="/art"><div class="row-name">资源管理</div></a>
+                        <div class="row-txt">提交资源,查看资源,修改资源</div>
+                    {% else %}
+                        <div class="row-name">资源管理</div>
+                        <div class="row-txt">很抱歉,您没有使用该功能的权限</div>
+                    {% endif %}
                 </div>
-                <div class="row">
-                    <div class="col-xs-6">
-                        {% if perms.home.can_art %}
-                            <a href="/art"><div class="row-name">资源管理</div></a>
-                            <div class="row-txt">提交资源,查看资源,修改资源</div>
-                        {% else %}
-                            <div class="row-name">资源管理</div>
-                            <div class="row-txt">很抱歉,您没有使用该功能的权限</div>
-                        {% endif %}
-                    </div>
-                    <div class="col-xs-6">
-                        {% if perms.home.can_developer %}
-                            <a href="/developer"><div class="row-name">搜索资源</div></a>
-                            <div class="row-txt">搜索资源,查看资源,下载资源</div>
-                        {% else %}
-                            <div class="row-name">搜索资源</div>
-                            <div class="row-txt">很抱歉,您没有使用该功能的权限</div>
-                        {% endif %}
-                    </div>
+                <div class="col-xs-6">
+                    {% if perms.home.can_developer %}
+                        <a href="/developer"><div class="row-name">搜索资源</div></a>
+                        <div class="row-txt">搜索资源,查看资源,下载资源</div>
+                    {% else %}
+                        <div class="row-name">搜索资源</div>
+                        <div class="row-txt">很抱歉,您没有使用该功能的权限</div>
+                    {% endif %}
                 </div>
-
             </div>
 
         </div>

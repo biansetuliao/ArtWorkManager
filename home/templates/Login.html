@@ -4,27 +4,32 @@
     <form method="post" action="{% url 'login:sign_in' %}" class="form-horizontal">
         {% csrf_token %}
         <div class="login">
+
             <div id="line">
                 <h3>ArtWorkManager</h3>
                 <h5>美术资源管理系统</h5>
             </div>
-            <h3>用户登录</h3>
-            <div class="form-group">
-                <label for="username">用户名</label>
-                <input type="text" name="username" class="form-control" placeholder="Username">
+
+            <div class="login-txt">
+                <h3>用户登录</h3>
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" name="username" class="form-control" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label for="password">密　码</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+                <div class="error">
+                    {% if error_txt %}
+                        {{ error_txt }}
+                    {% endif %}
+                </div>
+                <div class="sign_in">
+                    <input type="submit" class="btn btn-default btn-sm" id="sign" value="LOG IN">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">密　码</label>
-                <input type="password" name="password" class="form-control" placeholder="Password">
-            </div>
-            <div class="error">
-                {% if error_txt %}
-                    {{ error_txt }}
-                {% endif %}
-            </div>
-            <div class="sign_in">
-                <input type="submit" class="btn btn-default btn-sm" id="sign" value="LOG IN">
-            </div>
+
         </div>
     </form>
 

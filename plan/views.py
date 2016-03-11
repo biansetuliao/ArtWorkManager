@@ -24,8 +24,6 @@ class IndexView(generic.View):
             return HttpResponseRedirect(is_log_in)
 
         group_list = list(Group.objects.all())
-        if not group_list:
-            return HttpResponseRedirect('/manager')
 
         context = {
             'group_list': group_list

@@ -8,7 +8,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    border: 2px solid #337ab7;
+    /*border: 2px solid #337ab7;*/
 }
 
 .login #line h3{
@@ -29,17 +29,17 @@
     padding: 20px;
 }
 
-.login h2 strong{
-    border-right: 2px solid #34495E;
-    margin-right: 10px;
-    padding-right: 30px;
-}
-
 #line{
     width: 100%;
     margin: auto;
     background: #337ab7;
     color: #ffffff;
+}
+
+.login-txt{
+    background: #f0f0f0;
+    height: 309px;
+    /*margin-top: 9px;*/
 }
 
 .login input{
@@ -139,7 +139,7 @@
 
 #menu{
     width: 800px;
-    height: 350px;
+    height: 300px;
     margin:  auto;
     position: absolute;
     text-align: center;
@@ -147,7 +147,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(255,255,255,0.5);
+    background: #f0f0f0;
 }
 
 #username{
@@ -213,18 +213,18 @@
 .row-name{
     height: 40px;
     line-height: 40px;
-    background: #34495E;
+    background: #337ab7;
     color: #ffffff;
     font-size: 20px;
 }
 
 .row-txt{
-    height: 40px;
-    line-height: 40px;
-    color: #34495E;
-    border-right: 2px solid #34495E;
-    border-left: 2px solid #34495E;
-    border-bottom: 2px solid #34495E;
+    height: 60px;
+    line-height: 60px;
+    color: #000000;
+    border-right: 2px solid #337ab7;
+    border-left: 2px solid #337ab7;
+    border-bottom: 2px solid #337ab7;
 }
 
 .manager{
@@ -267,4 +267,14 @@
 .manager-panel{
     width: 100%;
     height: 50px;
+}
+
+
+.no-group{
+    height: 500px;
+    width: 100%;
+    line-height: 500px;
+    font-size: 20px;
+    background: #f0f0f0;
+    text-align: center;
 }

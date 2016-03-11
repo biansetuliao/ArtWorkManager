@@ -3,7 +3,7 @@ function search_tag(object){
     group = object.value;
     var xmlhttp;
     if (group == ""){
-        $("#tag_info").html("<h4>请选择资源类型</h4>");
+        $("#tag_info").html("<h4>请选择资源类别</h4>");
         return;
     }
     if (window.XMLHttpRequest){
