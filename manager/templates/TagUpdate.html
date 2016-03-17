@@ -1,0 +1,54 @@
+{% extends 'ManagerBase.html' %}
+{% block content %}
+
+    <h2>标签管理 Tag</h2>
+    <table class="table">
+        {% for p in tags %}
+            <thead style="font-size: 20px; font-weight: 800; text-align: left;">
+                <tr>
+                    <td style="vertical-align: middle;">更新标签</td>
+                    <td colspan="2" align="right">
+                        <form method="get" action="{% url 'manager:delete' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="GInfo" value="tag">
+                            <input type="hidden" name="GID" value="{{ p.id }}">
+                            <button class="btn btn-primary btn-block btn-sm" style="width: 50px;">删除</button>
+                        </form>
+                    </td>
+                </tr>
+            </thead>
+            <form method="post" action="{% url 'manager:update' %}">
+                {% csrf_token %}
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>编号 Code</strong></td>
+                        <td colspan="2">
+                            <input type="text" class="form-control input-sm" style="width: 100px;" name="code" value="{{ p.code }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>名称 Name</strong></td>
+                        <td  style="width: 80%;" colspan="2">
+                            <input type="text" class="form-control input-sm" style="width: 300px;" name="name" value="{{ p.name }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="/manager/tag"><button class="btn btn-primary btn-block btn-sm" type="button" style="width: 50px;">返回</button></a>
+                        </td>
+                        <td align="right" colspan="2">
+                            <button class="btn btn-primary btn-block btn-sm" type="submit" style="width: 50px;">保存</button>
+                            <input type="hidden" name="GInfo" value="tag">
+                            <input type="hidden" name="GID" value="{{ p.id }}">
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+        {% endfor %}
+    </table>
+
+    {% if error_txt %}
+        <div class="error">{{ error_txt }}</div>
+    {% endif %}
+
+{% endblock %}

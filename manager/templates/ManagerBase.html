@@ -26,9 +26,28 @@
         </div>
     </div>
 
-    {% block content %}
+    <div class="manager">
+        <div class="row">
+            <div class="col-xs-3">
+                <h2>后台管理</h2>
+                <ul>
+                    <li><a href="/manager/">类别管理 Group</a></li>
+                    <li><a href="/manager/tag/">标签管理 Tag</a></li>
+                    <li><a href="/admin/auth/user/">用户管理 User</a></li>
+                </ul>
+                <a href="/login/menu"><div id="back">返回主页</div></a>
+            </div>
+            <div class="col-xs-9">
+                <div class="manager-panel">
 
-    {% endblock %}
+                    {% block content %}
+
+                    {% endblock %}
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

@@ -1,0 +1,131 @@
+{% extends 'ManagerBase.html' %}
+{% block content %}
+
+    <h2>类别管理 Group</h2>
+    <table class="table">
+        {% for p in groups %}
+            <thead style="font-size: 20px; font-weight: 800; text-align: left;">
+                <tr>
+                    <td style="vertical-align: middle;">更新类别</td>
+                    <td colspan="2" align="right">
+                        <form method="get" action="{% url 'manager:delete' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="GInfo" value="group">
+                            <input type="hidden" name="GID" value="{{ p.id }}">
+                            <button class="btn btn-primary btn-block btn-sm" style="width: 50px;">删除</button>
+                        </form>
+                    </td>
+                </tr>
+            </thead>
+            <form method="post" action="{% url 'manager:update' %}">
+                {% csrf_token %}
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>编号 Code</strong></td>
+                        <td colspan="2">
+                            <input type="text" class="form-control input-sm" style="width: 100px;" name="code" value="{{ p.code }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>名称 Name</strong></td>
+                        <td  style="width: 80%;" colspan="2">
+                            <input type="text" class="form-control input-sm" style="width: 300px;" name="name" value="{{ p.name }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>文件类型 Format</strong></td>
+                        <td  style="width: 80%;" colspan="2">
+                            <input type="text" class="form-control input-sm" style="width: 300px;" name="format" value="{{ p.format }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="/manager"><button class="btn btn-primary btn-block btn-sm" type="button" style="width: 50px;">返回</button></a>
+                        </td>
+                        <td align="right" colspan="2">
+                            <button class="btn btn-primary btn-block btn-sm" type="submit" style="width: 50px;">保存</button>
+                            <input type="hidden" name="GInfo" value="group">
+                            <input type="hidden" name="GID" value="{{ p.id }}">
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+        {% endfor %}
+    </table>
+
+    {% if error_txt %}
+        <div class="error" style="margin-bottom: 20px;">{{ error_txt }}</div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-xs-4">
+            <table class="table" style="text-align: center;">
+                <thead style="font-size: 14px; font-weight: 800;">
+                    <tr style="font-size: 14px; text-align: left; background: #337ab7; color: #ffffff">
+                        <td colspan="2">添加GGT</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {% if tags %}
+                            {% for p in tags %}
+                                <tr>
+                                    <td style="vertical-align: middle;">
+                                        <input type="checkbox" name="tag_list" value="{{ p.id }}">
+                                    </td>
+                                    <td>
+                                        {{ p.name }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="2">
+                                    <button id="add" class="btn btn-primary btn-block btn-sm" type="submit" style="width: 100%;">添加</button>
+                                    <input type="hidden" name="group_id" value="{{ group_id }}">
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="2">没有标签!</td>
+                            </tr>
+                        {% endif %}
+                    </form>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-8">
+            <table class="table" style="text-align: center;">
+                <thead style="font-size: 14px; font-weight: 800;">
+                    <tr style="font-size: 14px; text-align: left; background: #337ab7; color: #ffffff">
+                        <td colspan="3">类别所属标签 Group To Tag</td>
+                    </tr>
+                    <tr>
+                        <td>类别 Group</td>
+                        <td>标签 Tag</td>
+                        <td>操作 Operation</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if not gtt_list %}
+                    <tr>
+                        <td colspan="3">没有类别所属标签,请添加!</td>
+                    </tr>
+                {% else %}
+                    {% for p in gtt_list %}
+                    <tr>
+                        <td style="vertical-align: middle;">{{ p.group.name }}</td>
+                        <td style="vertical-align: middle;">{{ p.tag.name }}</td>
+                        <td style="vertical-align: middle;">
+                            <a href="/manager/updategroup/{{ p.id }}"><button class="btn btn-primary btn-block btn-sm" style="width: 100%;">更新GTT</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}
