@@ -178,6 +178,95 @@ class GroupUpdateView(generic.View):
                       context)
 
 
+class GTTUpdateView(generic.View):
+    templates_file = 'GTTUpdate.html'
+
+    def get(self, request, gtt_id):
+
+        is_log_in = is_sign_in(request)
+        if is_log_in:
+            return HttpResponseRedirect(is_log_in)
+
+        gtts = list(GroupToTag.objects.filter(id=int(gtt_id)))
+        if not gtts:
+            gtts = []
+
+        taginfo_list = []
+        for p in gtts:
+            taginfos = list(TagInfo.objects.filter(group=int(p.group.id), tag=(p.tag.id)))
+            if taginfos:
+                taginfo_list = taginfos
+            else:
+                taginfo_list = []
+
+        if 'error' in request.GET and request.GET['error']:
+            error_code = request.GET['error']
+        else:
+            error_code = '0'
+
+        if error_code == '1':
+            error_txt = '更新失败!编号不能为空,不能重复,只能是数字!'
+        elif error_code == '2':
+            error_txt = '更新失败!名称不能为空!'
+        elif error_code == '3':
+            error_txt = '更新失败!Group ID错误或不存在!'
+        elif error_code == '4':
+            error_txt = '更新失败!Tag ID错误或不存在!'
+        else:
+            error_txt = ''
+
+        context = {
+            'gtts': gtts,
+            'gtt_id': gtt_id,
+            'error_txt': error_txt,
+            'taginfo_list': taginfo_list
+        }
+
+        return render(request,
+                      self.templates_file,
+                      context)
+
+
+class TagInfoUpdateView(generic.View):
+    templates_file = 'TagInfoUpdate.html'
+
+    def get(self, request, gtt_id, info_id):
+
+        is_log_in = is_sign_in(request)
+        if is_log_in:
+            return HttpResponseRedirect(is_log_in)
+
+        taginfos = list(TagInfo.objects.filter(id=int(info_id)))
+        if taginfos:
+            taginfo_list = taginfos
+        else:
+            taginfo_list = []
+
+        if 'error' in request.GET and request.GET['error']:
+            error_code = request.GET['error']
+        else:
+            error_code = '0'
+
+        if error_code == '1':
+            error_txt = '更新失败!编号不能为空,不能重复,只能是数字!'
+        elif error_code == '2':
+            error_txt = '更新失败!名称不能为空!'
+        elif error_code == '3':
+            error_txt = '更新失败!TagInfo ID错误或不存在!'
+        else:
+            error_txt = ''
+
+        context = {
+            'gtt_id': gtt_id,
+            'error_txt': error_txt,
+            'taginfo_list': taginfo_list
+        }
+
+        return render(request,
+                      self.templates_file,
+                      context)
+
+
 # ADD
 
 
@@ -243,7 +332,6 @@ def create(request):
 
         return ('/manager/tag/')
 
-
     add = {
         "group": group,
         "tag": tag,
@@ -251,6 +339,81 @@ def create(request):
 
     http = add[info_name]()
     return HttpResponseRedirect(http)
+
+
+# ADD GroupToTag
+def create_gtt(request):
+
+    if 'group_id' in request.POST and request.POST['group_id']:
+        group_id = request.POST['group_id']
+    else:
+        return HttpResponse('Group ID不能为空!')
+
+    groups = list(Group.objects.filter(id=int(group_id))).pop()
+
+    tagid_list = list(request.POST.getlist('tag_list'))
+
+    if not tagid_list:
+        return HttpResponse('Tag ID不能为空!')
+
+    for p in tagid_list:
+        tags = list(Tag.objects.filter(id=int(p)))
+        if tags:
+            tag = tags.pop()
+        else:
+            return HttpResponse('Tag不存在!')
+
+        is_tag = list(GroupToTag.objects.filter(group=groups, tag=tag))
+        if not is_tag:
+            gtts = GroupToTag(tag=tag,
+                              group=groups)
+            gtts.save()
+
+    return HttpResponseRedirect('/manager/updategroup/%d' % int(group_id))
+
+
+# ADD TagInfo
+def create_taginfo(request):
+
+    # gtt_id
+    if 'gtt_id' in request.POST and request.POST['gtt_id']:
+        gtt_id = request.POST['gtt_id']
+    else:
+        return HttpResponse('GTT ID错误或不存在!')
+
+    # Code
+    if 'code' in request.POST and request.POST['code']:
+        code = request.POST['code']
+    else:
+        return HttpResponseRedirect('/manager/updategtt/%d/?error=1' % int(gtt_id))
+
+    # Name
+    if 'name' in request.POST and request.POST['name']:
+        name = request.POST['name']
+    else:
+        return HttpResponseRedirect('/manager/updategtt/%d/?error=2' % int(gtt_id))
+
+    # Group_ID
+    if 'group_id' in request.POST and request.POST['group_id']:
+        group_id = request.POST['group_id']
+        groups = list(Group.objects.filter(id=int(group_id))).pop()
+    else:
+        return HttpResponseRedirect('/manager/updategtt/%d/?error=3' % int(gtt_id))
+
+    # Tag_ID
+    if 'tag_id' in request.POST and request.POST['tag_id']:
+        tag_id = request.POST['tag_id']
+        tags = list(Tag.objects.filter(id=int(tag_id))).pop()
+    else:
+        return HttpResponseRedirect('/manager/updategtt/%d/?error=4' % int(gtt_id))
+
+    add_taginfo = TagInfo(code=code,
+                          name=name,
+                          group=groups,
+                          tag=tags)
+    add_taginfo.save()
+
+    return HttpResponseRedirect('/manager/updategtt/%d' % int(gtt_id))
 
 
 # Update
@@ -346,6 +509,48 @@ def update(request):
     return HttpResponseRedirect(http)
 
 
+# Update TagInfo
+def update_taginfo(request):
+
+    # GTT_ID
+    if 'gtt_id' in request.POST and request.POST['gtt_id']:
+        gtt_id = int(request.POST['gtt_id'])
+    else:
+        return HttpResponse('GTT ID 错误或不存在!')
+
+    # TagInfo_ID
+    if 'info_id' in request.POST and request.POST['info_id']:
+        info_id = int(request.POST['info_id'])
+    else:
+        return HttpResponse('TagInfo ID 错误或不存在!')
+
+    # Code
+    if 'code' in request.POST and request.POST['code']:
+        code = request.POST['code']
+    else:
+        return HttpResponseRedirect('/manager/updateinfo/%d/%d/?error=1' % (gtt_id, info_id))
+
+    # Name
+    if 'name' in request.POST and request.POST['name']:
+        name = request.POST['name']
+    else:
+        return HttpResponseRedirect('/manager/updateinfo/%d/%d/?error=2' % (gtt_id, info_id))
+
+    info_code = int(code)
+    info_name = name
+
+    taginfos = list(TagInfo.objects.filter(id=info_id))
+    if not taginfos:
+        return HttpResponseRedirect('/manager/updateinfo/%d/%d/?error=3' % (gtt_id, info_id))
+
+    for t in taginfos:
+        t.code = info_code
+        t.name = info_name
+        t.save()
+
+    return HttpResponseRedirect('/manager/updateinfo/%d/%d' % (gtt_id, info_id))
+
+
 # Delete
 
 
@@ -395,4 +600,22 @@ def delete(request):
     return HttpResponseRedirect(http)
 
 
+def del_taginfo(request):
 
+    # GTT_ID
+    if 'gtt_id' in request.GET and request.GET['gtt_id']:
+        gtt_id = int(request.GET['gtt_id'])
+    else:
+        return HttpResponse('GTT ID 错误或不存在!')
+
+    # TagInfo_ID
+    if 'info_id' in request.GET and request.GET['info_id']:
+        info_id = int(request.GET['info_id'])
+    else:
+        return HttpResponse('TagInfo ID 错误或不存在!')
+
+    taginfos = TagInfo.objects.filter(id=info_id)
+    if taginfos:
+        taginfos.delete()
+
+    return HttpResponseRedirect('/manager/updategtt/%d' % gtt_id)

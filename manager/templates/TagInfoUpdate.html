@@ -1,0 +1,66 @@
+{% extends 'ManagerBase.html' %}
+{% block content %}
+
+    <h2>类别管理 Group</h2>
+    <table class="table">
+        {% for p in taginfo_list %}
+            <thead style="font-size: 20px; font-weight: 800; text-align: left;">
+                <tr>
+                    <td style="vertical-align: middle;">更新标签信息</td>
+                    <td colspan="2" align="right">
+                        <form method="get" action="{% url 'manager:infodelete' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="gtt_id" value="{{ gtt_id }}">
+                            <input type="hidden" name="info_id" value="{{ p.id }}">
+                            <button class="btn btn-primary btn-block btn-sm" style="width: 50px;">删除</button>
+                        </form>
+                    </td>
+                </tr>
+            </thead>
+            <form method="post" action="{% url 'manager:infoupdate' %}">
+                {% csrf_token %}
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>类别 Group</strong></td>
+                        <td colspan="2">
+                            {{ p.group.name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>标签 Tag</strong></td>
+                        <td  style="width: 80%;" colspan="2">
+                            {{ p.tag.name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>编号 Code</strong></td>
+                        <td colspan="2">
+                            <input type="text" class="form-control input-sm" style="width: 100px;" name="code" value="{{ p.code }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>名称 Name</strong></td>
+                        <td  style="width: 80%;" colspan="2">
+                            <input type="text" class="form-control input-sm" style="width: 300px;" name="name" value="{{ p.name }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="/manager/updategtt/{{ gtt_id }}"><button class="btn btn-primary btn-block btn-sm" type="button" style="width: 50px;">返回</button></a>
+                        </td>
+                        <td align="right" colspan="2">
+                            <button class="btn btn-primary btn-block btn-sm" type="submit" style="width: 50px;">保存</button>
+                            <input type="hidden" name="gtt_id" value="{{ gtt_id }}">
+                            <input type="hidden" name="info_id" value="{{ p.id }}">
+                        </td>
+                    </tr>
+                </tbody>
+            </form>
+        {% endfor %}
+    </table>
+
+    {% if error_txt %}
+        <div class="error">{{ error_txt }}</div>
+    {% endif %}
+
+{% endblock %}

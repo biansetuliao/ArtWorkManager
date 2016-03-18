@@ -59,15 +59,15 @@
 
     <div class="row">
         <div class="col-xs-4">
-            <table class="table" style="text-align: center;">
-                <thead style="font-size: 14px; font-weight: 800;">
-                    <tr style="font-size: 14px; text-align: left; background: #337ab7; color: #ffffff">
-                        <td colspan="2">添加GGT</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <form method="post" action="">
-                        {% csrf_token %}
+            <form method="post" action="{% url 'manager:gttadd' %}">
+                {% csrf_token %}
+                <table class="table" style="text-align: center;">
+                    <thead style="font-size: 14px; font-weight: 800;">
+                        <tr style="font-size: 14px; text-align: left; background: #337ab7; color: #ffffff">
+                            <td colspan="2">添加GGT</td>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {% if tags %}
                             {% for p in tags %}
                                 <tr>
@@ -87,12 +87,12 @@
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="2">没有标签!</td>
+                                <td colspan="2">没有标签,请添加标签!</td>
                             </tr>
                         {% endif %}
-                    </form>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </form>
         </div>
         <div class="col-xs-8">
             <table class="table" style="text-align: center;">
@@ -117,7 +117,7 @@
                         <td style="vertical-align: middle;">{{ p.group.name }}</td>
                         <td style="vertical-align: middle;">{{ p.tag.name }}</td>
                         <td style="vertical-align: middle;">
-                            <a href="/manager/updategroup/{{ p.id }}"><button class="btn btn-primary btn-block btn-sm" style="width: 100%;">更新GTT</button></a>
+                            <a href="/manager/updategtt/{{ p.id }}"><button class="btn btn-primary btn-block btn-sm" style="width: 100%;">管理TagInfo</button></a>
                         </td>
                     </tr>
                     {% endfor %}

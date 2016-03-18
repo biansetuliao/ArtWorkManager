@@ -1,0 +1,108 @@
+{% extends 'ManagerBase.html' %}
+{% block content %}
+
+    <h2>类别管理 Group</h2>
+    {% for p in gtts %}
+        <table class="table">
+            <thead style="font-size: 20px; font-weight: 800; text-align: left;">
+                <tr>
+                    <td colspan="3" style="vertical-align: middle;">查看类别所属标签</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: middle;"><strong>类别 Group</strong></td>
+                    <td colspan="2">
+                        {{ p.group.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;"><strong>标签 Tag</strong></td>
+                    <td  style="width: 80%;" colspan="2">
+                        {{ p.tag.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/manager/updategroup/{{ p.group.id }}"><button class="btn btn-primary btn-block btn-sm" type="button" style="width: 50px;">返回</button></a>
+                    </td>
+                    <td align="right" colspan="2">
+                        <form method="get" action="{% url 'manager:delete' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="GInfo" value="group">
+                            <input type="hidden" name="GID" value="{{ p.id }}">
+                            <button class="btn btn-primary btn-block btn-sm" style="width: 50px;">删除</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form method="post" action="{% url 'manager:infoadd' %}">
+            {% csrf_token %}
+            <table class="table" style="text-align: center;">
+                <thead style="font-size: 14px; font-weight: 800;">
+                    <tr style="font-size: 14px; text-align: left; background: #337ab7; color: #ffffff">
+                        <td colspan="5">标签信息 TagInfo</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" align="left">添加标签信息</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td style="vertical-align: middle;"><strong>Code</strong></td>
+                    <td>
+                        <input type="text" class="form-control input-sm" name="code" placeholder="编号">
+                    </td>
+                    <td style="vertical-align: middle;"><strong>Name</strong></td>
+                    <td>
+                        <input type="text" class="form-control input-sm" name="name" placeholder="名称">
+                    </td>
+                    <td>
+                        <button id="add" class="btn btn-primary btn-block btn-sm" type="submit" style="width: 100%;">添加</button>
+                        <input type="hidden" name="GInfo" value="taginfo">
+                        <input type="hidden" name="group_id" value="{{ p.group.id }}">
+                        <input type="hidden" name="tag_id" value="{{ p.tag.id }}">
+                        <input type="hidden" name="gtt_id" value="{{ gtt_id }}">
+                    </td>
+                </tbody>
+            </table>
+        </form>
+    {% endfor %}
+
+    {% if error_txt %}
+        <div class="error" style="margin-bottom: 20px;">{{ error_txt }}</div>
+    {% endif %}
+
+    <table class="table" style="text-align: center;">
+        <thead style="font-size: 14px; font-weight: 800;">
+            <tr>
+                <td colspan="3" align="left">标签信息列表</td>
+            </tr>
+            <tr>
+                <td>编号 Code</td>
+                <td>名称 Name</td>
+                <td>操作 Operation</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% if not taginfo_list %}
+            <tr>
+                <td colspan="3">没有标签信息,请添加!</td>
+            </tr>
+        {% else %}
+            {% for p in taginfo_list %}
+                <tr>
+                    <td style="vertical-align: middle;">{{ p.code }}</td>
+                    <td style="vertical-align: middle;">{{ p.name }}</td>
+                    <td style="vertical-align: middle;">
+                        <a href="/manager/updateinfo/{{ gtt_id }}/{{ p.id }}"><button class="btn btn-primary btn-block btn-sm" style="width: 100%;">更新</button></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
