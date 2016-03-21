@@ -1,7 +1,7 @@
 {% extends 'PlanBase.html' %}
 {% block content %}
 
-    <div class="plan">
+
         <form action="" method="post">
             {% csrf_token %}
             <h2>发布任务</h2>
@@ -9,7 +9,7 @@
                 <div class="col-xs-6">
                     {% if group_list %}
                         <div class="form-group">
-                            <label for="group">Group</label>
+                            <label for="group">类别</label>
                             <select name="group" class="form-control" onchange="search_tag(this)">
                                 <option value="">Please Select</option>
                                 {% for group in group_list %}

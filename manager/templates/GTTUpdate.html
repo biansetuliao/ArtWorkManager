@@ -6,7 +6,15 @@
         <table class="table">
             <thead style="font-size: 20px; font-weight: 800; text-align: left;">
                 <tr>
-                    <td colspan="3" style="vertical-align: middle;">查看类别所属标签</td>
+                    <td colspan="2" style="vertical-align: middle;">更新类别标签</td>
+                    <td align="right">
+                        <form method="get" action="{% url 'manager:gtdelete' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="group_id" value="{{ p.group.id }}">
+                            <input type="hidden" name="gtt_id" value="{{ p.id }}">
+                            <button class="btn btn-primary btn-block btn-sm" style="width: 50px;">删除</button>
+                        </form>
+                    </td>
                 </tr>
             </thead>
             <tbody>
@@ -22,21 +30,31 @@
                         {{ p.tag.name }}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <a href="/manager/updategroup/{{ p.group.id }}"><button class="btn btn-primary btn-block btn-sm" type="button" style="width: 50px;">返回</button></a>
-                    </td>
-                    <td align="right" colspan="2">
-                        <form method="get" action="{% url 'manager:delete' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="GInfo" value="group">
+                <form action="{% url 'manager:update' %}" method="post">
+                    {% csrf_token %}
+                    <tr>
+                        <td style="vertical-align: middle;"><strong>标签信息 Info</strong></td>
+                        <td  style="width: 80%;" colspan="2">
+                            <input type="text" class="form-control input-sm" style="width: 300px;" name="info" value="{{ p.info }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="/manager/updategroup/{{ p.group.id }}"><button class="btn btn-primary btn-block btn-sm" type="button" style="width: 50px;">返回</button></a>
+                        </td>
+                        <td align="right" colspan="2">
+                            <button class="btn btn-primary btn-block btn-sm" type="submit" style="width: 50px;">保存</button>
+                            <input type="hidden" name="GInfo" value="gtt">
                             <input type="hidden" name="GID" value="{{ p.id }}">
-                            <button class="btn btn-primary btn-block btn-sm" style="width: 50px;">删除</button>
-                        </form>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                </form>
             </tbody>
         </table>
+
+        {% if error_txt and error_code == '0' %}
+            <div class="error" style="margin-bottom: 20px;">{{ error_txt }}</div>
+        {% endif %}
 
         <form method="post" action="{% url 'manager:infoadd' %}">
             {% csrf_token %}
@@ -70,7 +88,7 @@
         </form>
     {% endfor %}
 
-    {% if error_txt %}
+    {% if error_txt and error_code != '0' %}
         <div class="error" style="margin-bottom: 20px;">{{ error_txt }}</div>
     {% endif %}
 

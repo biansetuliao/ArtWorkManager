@@ -58,13 +58,18 @@
     {% endif %}
 
     <div class="row">
-        <div class="col-xs-4">
+        <div class="col-xs-5">
             <form method="post" action="{% url 'manager:gttadd' %}">
                 {% csrf_token %}
                 <table class="table" style="text-align: center;">
                     <thead style="font-size: 14px; font-weight: 800;">
                         <tr style="font-size: 14px; text-align: left; background: #337ab7; color: #ffffff">
-                            <td colspan="2">添加GGT</td>
+                            <td colspan="3">添加GGT</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>标签</td>
+                            <td>标签信息</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,35 +79,38 @@
                                     <td style="vertical-align: middle;">
                                         <input type="checkbox" name="tag_list" value="{{ p.id }}">
                                     </td>
-                                    <td>
+                                    <td style="vertical-align: middle;">
                                         {{ p.name }}
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <input type="text" class="form-control input-sm" name="info_{{ p.id }}" placeholder="标签信息">
                                     </td>
                                 </tr>
                             {% endfor %}
                             <tr>
-                                <td colspan="2">
+                                <td colspan="3">
                                     <button id="add" class="btn btn-primary btn-block btn-sm" type="submit" style="width: 100%;">添加</button>
                                     <input type="hidden" name="group_id" value="{{ group_id }}">
                                 </td>
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="2">没有标签,请添加标签!</td>
+                                <td colspan="3">没有标签,请添加标签!</td>
                             </tr>
                         {% endif %}
                     </tbody>
                 </table>
             </form>
         </div>
-        <div class="col-xs-8">
+        <div class="col-xs-7">
             <table class="table" style="text-align: center;">
                 <thead style="font-size: 14px; font-weight: 800;">
                     <tr style="font-size: 14px; text-align: left; background: #337ab7; color: #ffffff">
                         <td colspan="3">类别所属标签 Group To Tag</td>
                     </tr>
                     <tr>
-                        <td>类别 Group</td>
                         <td>标签 Tag</td>
+                        <td>标签信息 Info</td>
                         <td>操作 Operation</td>
                     </tr>
                 </thead>
@@ -114,8 +122,8 @@
                 {% else %}
                     {% for p in gtt_list %}
                     <tr>
-                        <td style="vertical-align: middle;">{{ p.group.name }}</td>
                         <td style="vertical-align: middle;">{{ p.tag.name }}</td>
+                        <td style="vertical-align: middle;">{{ p.info }}</td>
                         <td style="vertical-align: middle;">
                             <a href="/manager/updategtt/{{ p.id }}"><button class="btn btn-primary btn-block btn-sm" style="width: 100%;">管理TagInfo</button></a>
                         </td>

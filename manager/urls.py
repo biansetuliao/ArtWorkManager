@@ -33,6 +33,8 @@ urlpatterns = [
 
     url(r'^delete', views.delete, name='delete'),
 
+    url(r'^gtdelete', views.del_gtt, name='gtdelete'),
+
     url(r'^infodelete', views.del_taginfo, name='infodelete'),
 
 ]

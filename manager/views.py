@@ -37,7 +37,7 @@ class IndexView(generic.View):
         if 'error' in request.GET and request.GET['error']:
             error_code = request.GET['error']
         else:
-            error_code = '0'
+            error_code = ''
 
         if error_code == '1':
             error_txt = '添加失败!编号不能为空,不能重复,只能是数字!'
@@ -74,7 +74,7 @@ class TagView(generic.View):
         if 'error' in request.GET and request.GET['error']:
             error_code = request.GET['error']
         else:
-            error_code = '0'
+            error_code = ''
 
         if error_code == '1':
             error_txt = '添加失败!编号不能为空,不能重复,只能是数字!'
@@ -109,7 +109,7 @@ class TagUpdateView(generic.View):
         if 'error' in request.GET and request.GET['error']:
             error_code = request.GET['error']
         else:
-            error_code = '0'
+            error_code = ''
 
         if error_code == '1':
             error_txt = '更新失败!编号不能为空,不能重复,只能是数字!'
@@ -152,7 +152,7 @@ class GroupUpdateView(generic.View):
         if 'error' in request.GET and request.GET['error']:
             error_code = request.GET['error']
         else:
-            error_code = '0'
+            error_code = ''
 
         if error_code == '1':
             error_txt = '更新失败!编号不能为空,不能重复,只能是数字!'
@@ -202,16 +202,18 @@ class GTTUpdateView(generic.View):
         if 'error' in request.GET and request.GET['error']:
             error_code = request.GET['error']
         else:
-            error_code = '0'
+            error_code = ''
 
         if error_code == '1':
-            error_txt = '更新失败!编号不能为空,不能重复,只能是数字!'
+            error_txt = '添加失败!编号不能为空,不能重复,只能是数字!'
         elif error_code == '2':
-            error_txt = '更新失败!名称不能为空!'
+            error_txt = '添加失败!名称不能为空!'
         elif error_code == '3':
-            error_txt = '更新失败!Group ID错误或不存在!'
+            error_txt = '添加失败!Group ID错误或不存在!'
         elif error_code == '4':
-            error_txt = '更新失败!Tag ID错误或不存在!'
+            error_txt = '添加失败!Tag ID错误或不存在!'
+        elif error_code == '0':
+            error_txt = '更新失败!标签信息错误,不存在或GTT ID错误,不存在!'
         else:
             error_txt = ''
 
@@ -219,6 +221,7 @@ class GTTUpdateView(generic.View):
             'gtts': gtts,
             'gtt_id': gtt_id,
             'error_txt': error_txt,
+            'error_code': error_code,
             'taginfo_list': taginfo_list
         }
 
@@ -363,10 +366,16 @@ def create_gtt(request):
         else:
             return HttpResponse('Tag不存在!')
 
+        if ('info_' + p) in request.POST and request.POST['info_' + p]:
+            infos = request.POST['info_' + p]
+        else:
+            return HttpResponse('Info 标签信息不存在!')
+
         is_tag = list(GroupToTag.objects.filter(group=groups, tag=tag))
         if not is_tag:
             gtts = GroupToTag(tag=tag,
-                              group=groups)
+                              group=groups,
+                              info=infos)
             gtts.save()
 
     return HttpResponseRedirect('/manager/updategroup/%d' % int(group_id))
@@ -499,10 +508,30 @@ def update(request):
 
         return ('/manager/updatetag/%d' % tag_id)
 
+    # GTT
+    def gtt():
+
+        # Info
+        if 'info' in request.POST and request.POST['info']:
+            info = request.POST['info']
+        else:
+            return ('/manager/updategtt/%d/?error=0' % int(info_id))
+
+        gtts = list(GroupToTag.objects.filter(id=int(info_id)))
+        if not gtts:
+            return ('/manager/updategtt/%d/?error=0' % int(info_id))
+
+        for p in gtts:
+            p.info = info
+            p.save()
+
+        return ('/manager/updategtt/%d' % int(info_id))
+
 
     up = {
         "group": group,
         "tag": tag,
+        "gtt": gtt,
     }
 
     http = up[info_name]()
@@ -598,6 +627,28 @@ def delete(request):
 
     http = Del[info_name]()
     return HttpResponseRedirect(http)
+
+
+def del_gtt(request):
+
+    # Group_ID
+    if 'group_id' in request.GET and request.GET['group_id']:
+        group_id = int(request.GET['group_id'])
+    else:
+        return HttpResponse("Group_ID 参数错误或不存在!")
+
+    # GTT_ID
+    if 'gtt_id' in request.GET and request.GET['gtt_id']:
+        gtt_id = int(request.GET['gtt_id'])
+    else:
+        return HttpResponse("GTT_ID 参数错误或不存在!")
+
+
+    gtts = GroupToTag.objects.filter(id=gtt_id)
+    if gtts:
+        gtts.delete()
+
+    return HttpResponseRedirect ('/manager/updategroup/%d' % group_id)
 
 
 def del_taginfo(request):
