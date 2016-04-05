@@ -31,7 +31,7 @@ class TagInfoAdmin(admin.ModelAdmin):
 
 
 class ArtInfoInline(admin.TabularInline):
-    model = Artinfo
+    model = ArtInfo
     extra = 1
 
 

@@ -1,0 +1,72 @@
+{% extends 'PlanBase.html' %}
+{% block content %}
+
+    <h2>管理任务</h2>
+    <table class="table" id="audit">
+        <tr>
+            <td id="audit1"><a href="#">已通过审核任务</a></td>
+            <td id="audit2">12</td>
+            <td id="audit3"></td>
+            <td id="audit1"><a href="#">未通过审核任务</a></td>
+            <td id="audit2">20</td>
+        </tr>
+    </table>
+
+    <table class="table" id="audit">
+        <thead style="font-size: 14px; font-weight: 800;">
+            <tr style="font-size: 20px; text-align: left;">
+                <td colspan="5">未提交资源任务</td>
+            </tr>
+            <tr>
+                <td>ID</td>
+                <td>类别</td>
+                <td>任务优先级</td>
+                <td>任务描述</td>
+                <td>修改</td>
+            </tr>
+        </thead>
+        <tbody>
+{#            <tr>#}
+{#                <td colspan="5">没有未审核任务!</td>#}
+{#            </tr>#}
+            <tr>
+                <td>1</td>
+                <td>Test</td>
+                <td>优先</td>
+                <td>
+                    <textarea class="form-control" disabled>testtesttesttesttest</textarea>
+                </td>
+                <td>
+                    <a href=""><button class="btn btn-primary btn-block btn-sm" style="width: 100%;">修改</button></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <nav style="text-align: center">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" aria-label="Previous">上一页</a>
+            </li>
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li>
+                <a href="#" aria-label="Previous">下一页</a>
+            </li>
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+{% endblock %}

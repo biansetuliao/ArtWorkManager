@@ -1,0 +1,8 @@
+<div class="form-group">
+    <label for="big_version">任务版本号 Big_Version</label>
+    <select name="big_version" class="form-control">
+        {% for n in bv_list %}
+            <option value="{{ n }}">{{ n }}</option>
+        {% endfor %}
+    </select>
+</div>

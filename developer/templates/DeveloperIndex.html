@@ -1,15 +1,55 @@
 {% extends 'DeveloperBase.html' %}
 {% block content %}
-    <div class="menu">
+    <div class="menus">
         <div class="row">
             <div class="col-xs-7">
-                <h2>ArtWorkManager <small>美术资源管理系统</small></h2>
+                <h3>ArtWorkManager <small>美术资源管理系统</small></h3>
             </div>
             <div class="col-xs-5">
                 <h2 id="username">
-                    {{ user.username }}<a href="{% url 'login:sign_out' %}">Sign out</a>
+                    <span class="glyphicon glyphicon-user"></span>{{ user.username }}　
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                    <a href="{% url 'login:sign_out' %}">退出</a>
                 </h2>
             </div>
         </div>
     </div>
+
+    <div class="developer">
+        <div class="row">
+            <div class="col-xs-3">
+                <h2>资源搜索</h2>
+                {% if group_list %}
+                    <div class="form-group">
+                        <label for="group">类别</label>
+                        <select name="group" id="group" class="form-control" onchange="search_group(this)">
+                            <option value="">请选择</option>
+                            {% for group in group_list %}
+                                <option value="{{ group.id }}">{{ group.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div id="tag_info">
+                        <h4>请选择资源类别</h4>
+                    </div>
+                {% else %}
+                    <h4>请点击下方按钮添加类别</h4>
+                    <a href="/manager/"><button type="button" class="btn btn-lg btn-primary btn-block">添加类别</button></a>
+                {% endif %}
+                <div class="form-group" style="display: block;">
+                    <textarea id="images" class="form-control">{}</textarea>
+                </div>
+                <a href="/login/menu"><div id="back">返回主页</div></a>
+            </div>
+            <div class="col-xs-9">
+                <div id="search_img">
+                    <h2>搜索结果</h2>
+                    <h3>请选择资源搜索条件!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 {% endblock %}

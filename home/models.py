@@ -65,7 +65,7 @@ def resource_file_path(instance, filename):
     return '/'.join([instance.group.name, 'resource', time.strftime('%m%d', time.localtime(time.time())), filename])
 
 class Art(models.Model):
-    user = models.CharField(max_length=100)
+    user = models.CharField(max_length=100, null=True)
     group = models.ForeignKey(Group)
     description = models.TextField()
     priority = models.IntegerField(unique=True)
@@ -78,7 +78,7 @@ class Art(models.Model):
     reason = models.TextField(null=True)
 
 
-class Artinfo(models.Model):
+class ArtInfo(models.Model):
     art = models.ForeignKey(Art)
     tag = models.ForeignKey(Tag)
     value = models.TextField()

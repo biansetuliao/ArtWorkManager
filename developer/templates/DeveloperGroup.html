@@ -1,0 +1,31 @@
+{% extends 'DeveloperBase.html' %}
+{% block content %}
+    {% if not gtts %}
+        <h4>数据错误或不存在!</h4>
+    {% else %}
+        {% for p in gtt_list %}
+            {% if p %}
+                <div class="form-group">
+                    <label for="{{ p.name }}">{{ p.info }} {{ p.name }}:</label>
+                    <select id="{{ p.name }}" onchange="search_img(this)" class="form-control input-sm" name="{{ groups_name }}_{{ p.name }}">
+                        <option value="">None</option>
+                        {% for q in p.info_list  %}
+                            <option value="{{ q.id }}">{{ q.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% else %}
+                <h4>数据错误或不存在!</h4>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div class="form-group">
+        <label for="username">作者</label>
+        <select name="username" id="usernames" class="form-control" onchange="search_img(this)">
+            <option value="">请选择</option>
+            {% for user in user_list %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock %}

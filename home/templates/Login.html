@@ -20,11 +20,11 @@
                     <label for="password">密　码</label>
                     <input type="password" name="password" class="form-control" placeholder="Password">
                 </div>
-                <div class="error">
-                    {% if error_txt %}
+                {% if error_txt %}
+                    <div class="error">
                         {{ error_txt }}
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
                 <div class="sign_in">
                     <input type="submit" class="btn btn-default btn-sm" id="sign" value="LOG IN">
                 </div>

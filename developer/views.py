@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from django.http import HttpResponse, HttpResponseRedirect
+from home.models import *
 
 
 def is_sign_in(request):
@@ -22,7 +23,11 @@ class IndexView(generic.View):
         if is_log_in:
             return HttpResponseRedirect(is_log_in)
 
-        context = {}
+        group_list = list(Group.objects.all())
+
+        context = {
+            'group_list': group_list
+        }
 
         return render(request,
                       self.templates_file,
