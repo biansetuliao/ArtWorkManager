@@ -1,5 +1,6 @@
 {% extends 'DeveloperBase.html' %}
 {% block content %}
+
     <div class="menus">
         <div class="row">
             <div class="col-xs-7">
@@ -22,7 +23,7 @@
                 {% if group_list %}
                     <div class="form-group">
                         <label for="group">类别</label>
-                        <select name="group" id="group" class="form-control" onchange="search_group(this)">
+                        <select name="group" id="group" class="form-control" onchange="search_gtt(this)">
                             <option value="">请选择</option>
                             {% for group in group_list %}
                                 <option value="{{ group.id }}">{{ group.name }}</option>
@@ -36,7 +37,7 @@
                     <h4>请点击下方按钮添加类别</h4>
                     <a href="/manager/"><button type="button" class="btn btn-lg btn-primary btn-block">添加类别</button></a>
                 {% endif %}
-                <div class="form-group" style="display: block;">
+                <div class="form-group" style="display: none;">
                     <textarea id="images" class="form-control">{}</textarea>
                 </div>
                 <a href="/login/menu"><div id="back">返回主页</div></a>
@@ -49,7 +50,5 @@
             </div>
         </div>
     </div>
-
-
 
 {% endblock %}

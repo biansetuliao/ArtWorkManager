@@ -45,6 +45,7 @@ function search_tag(object){
     var xmlhttp;
     if (group == ""){
         $("#tag_info").html("<h4>请选择资源类别</h4>");
+        $("#big_version").html('<div class="form-group"><label for="big_version">任务版本号 Big_Version</label><select name="big_version" class="form-control" disabled></select></div>');
         return;
     }
     if (window.XMLHttpRequest){
@@ -59,7 +60,34 @@ function search_tag(object){
             search_version(object)
         }
     };
-    xmlhttp.open("GET", "/plan/gtt?group_id=" + group,true);
+    xmlhttp.open("GET", "/plan/gtt?group_id=" + group, true);
+    xmlhttp.send();
+}
+
+
+//跳转到通过审核和未通过审核页面
+function to_audit(str){
+    if (str == "0")
+    {
+        to_url = "/plan/faild_task/"
+    }
+    else if (str == "1")
+    {
+        to_url = "/plan/pass_task/"
+    }
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+        xmlhttp = new XMLHttpRequest();
+    }
+    else{
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function(){
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            $("#audit_task").html(xmlhttp.responseText);
+        }
+    };
+    xmlhttp.open("GET", to_url, true);
     xmlhttp.send();
 }
 
@@ -71,14 +99,14 @@ function search_image(object){
     item_id = $(object).attr('id');
     name_str = $('#' + item_id).attr("id");
     value_str = $('#' + item_id).val();
-    tag_info = $('#tags').val();
+    tag_info = $('#images').val();
     var objjson = JSON.parse(tag_info);
     if (objjson["group"] != $("#group").val())
     {
         objjson={};
     }
     objjson[name_str] = value_str;
-    $('#tags').val(JSON.stringify(objjson));
+    $('#images').val(JSON.stringify(objjson));
     var json_str = JSON.stringify(objjson);
     var addhttp;
     if (value_str=="")
@@ -97,15 +125,15 @@ function search_image(object){
     {
         if(addhttp.readyState==4 && addhttp.status==200)
         {
-            $('#big_version').html(addhttp.responseText);
+            $('#search_img').html(addhttp.responseText);
         }
-    }
-    addhttp.open('POST', '', true);
+    };
+    addhttp.open('POST', '/developer/search/', true);
     addhttp.send(json_str);
 }
 
 //根据group查找tag和taginfo
-function group_to_tag(object){
+function search_gtt(object){
     group = object.value;
     var xmlhttp;
     if (group == ""){
@@ -124,7 +152,7 @@ function group_to_tag(object){
             search_image(object)
         }
     };
-    xmlhttp.open("GET", "", true);
+    xmlhttp.open("GET", "/developer/gtt/?group_id=" + group, true);
     xmlhttp.send();
 }
 

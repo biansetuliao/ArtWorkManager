@@ -10,8 +10,38 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
-    {% block content %}
+    <div class="menus">
+        <div class="row">
+            <div class="col-xs-7">
+                <h3>ArtWorkManager <small>美术资源管理系统</small></h3>
+            </div>
+            <div class="col-xs-5">
+                <h2 id="username">
+                    <span class="glyphicon glyphicon-user"></span>{{ user.username }}　
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                    <a href="{% url 'login:sign_out' %}">退出</a>
+                </h2>
+            </div>
+        </div>
+    </div>
 
-    {% endblock %}
+    <div class="plan">
+        <div class="row">
+            <div class="col-xs-3">
+                <h2>资源管理</h2>
+                <ul>
+                    <li><a href="#">待上传资源任务</a></li>
+                    <li><a href="#">已通过审核资源</a></li>
+                    <li><a href="#">未通过审核资源</a></li>
+                </ul>
+                <a href="/login/menu"><div id="back">返回主页</div></a>
+            </div>
+            <div class="col-xs-9">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -9,6 +9,20 @@
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="{% static 'ArtWorkManager/js/main.js' %}"></script>
+    <script src="{% static 'ArtWorkManager/js/jquery.poptrox.js' %}"></script>
+    <style>
+        #gallery { overflow: hidden; }
+        #gallery a { display: block;}
+        #gallery a img { display: block; border: 0; margin: auto; }
+    </style>
+    <script>
+        $(function() {
+            $('#gallery').poptrox({
+                usePopupCaption: true
+            });
+
+        });
+    </script>
 </head>
 <body>
 

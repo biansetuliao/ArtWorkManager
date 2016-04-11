@@ -5,8 +5,8 @@
         {% if p %}
             <div class="form-group">
                 <label for="{{ p.name }}">{{ p.info }} {{ p.name }}:</label>
-                <select id="{{ p.name }}" onchange="search_version(this)" class="form-control input-sm" name="{{ groups_name }}_{{ p.name }}">
-                    <option value="">None</option>
+                <select id="{{ p.name }}" onchange="search_version(this)" class="form-control input-sm" name="{{ group_name }}_{{ p.name }}">
+                    <option value="">请选择</option>
                     {% for q in p.info_list  %}
                         <option value="{{ q.id }}">{{ q.name }}</option>
                     {% endfor %}

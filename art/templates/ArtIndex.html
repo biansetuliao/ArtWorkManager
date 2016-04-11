@@ -1,15 +1,36 @@
 {% extends 'ArtBase.html' %}
 {% block content %}
-    <div class="menu">
-        <div class="row">
-            <div class="col-xs-7">
-                <h2>ArtWorkManager <small>美术资源管理系统</small></h2>
-            </div>
-            <div class="col-xs-5">
-                <h2 id="username">
-                    {{ user.username }}<a href="{% url 'login:sign_out' %}">Sign out</a>
-                </h2>
-            </div>
+
+    <h2>资源管理</h2>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-4">
+            <a href="#">
+                <div class="admin_task">
+                    <div class="dsh"></div>
+                    <div class="task_font">等待上传</div>
+                    <div class="task_num">10</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <a href="#">
+                <div class="admin_task">
+                    <span class="glyphicon glyphicon-ok-circle" style="color: green; font-size: 30px;"></span>
+                    <div class="task_font">审核通过</div>
+                    <div class="task_num">12</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <a href="#">
+                <div class="admin_task">
+                    <span class="glyphicon glyphicon-remove-circle" style="color: red; font-size: 30px;"></span>
+                    <div class="task_font">审核未通过</div>
+                    <div class="task_num">8</div>
+                </div>
+            </a>
         </div>
     </div>
+
 {% endblock %}

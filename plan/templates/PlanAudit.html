@@ -2,73 +2,105 @@
 {% block content %}
 
     <h2>审核任务</h2>
-    <table class="table" id="audit">
-        <tr>
-            <td id="audit1"><a href="/plan/yaudit_plan/">已审核任务</a></td>
-            <td id="audit2">12</td>
-            <td id="audit3"></td>
-            <td id="audit1"><a href="/plan/audit_plan/">未审核任务</a></td>
-            <td id="audit2">20</td>
-        </tr>
-    </table>
 
-    <table class="table" id="audit">
-        <thead style="font-size: 14px; font-weight: 800;">
-            <tr style="font-size: 20px; text-align: left;">
-                <td colspan="5">未审核任务</td>
-            </tr>
-            <tr>
-                <td>ID</td>
-                <td>类别</td>
-                <td>任务描述</td>
-                <td>预览图</td>
-                <td>审核</td>
-            </tr>
-        </thead>
-        <tbody>
-{#            <tr>#}
-{#                <td colspan="5">没有未审核任务!</td>#}
-{#            </tr>#}
-            <tr>
-                <td>1</td>
-                <td>Test</td>
-                <td>
-                    <textarea class="form-control" disabled>testtesttesttesttest</textarea>
-                </td>
-                <td>
-                    <img width="100px" src="http://rack.2.mshcdn.com/media/ZgkyMDE1LzA5LzEzLzNjL2dvb2dsZXRodW1iLmIyNGE0LmpwZwpwCXRodW1iCTk1MHg1MzQjCmUJanBn/63126c72/af4/google-thumb.jpg" />
-                </td>
-                <td>
-                    <a href="/plan/task_audit/"><button class="btn btn-primary btn-block btn-sm" style="width: 100%;">审核</button></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-4">
+            <a href="/plan/audit_plan/">
+                <div class="admin_task">
+                    <div class="dsh"></div>
+                    <div class="task_font">等待审核</div>
+                    <div class="task_num">{{ wsh }}</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <a href="javascript:to_audit(1)">
+                <div class="admin_task">
+                    <span class="glyphicon glyphicon-ok-circle" style="color: green; font-size: 30px;"></span>
+                    <div class="task_font">审核通过</div>
+                    <div class="task_num">{{ psh }}</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <a href="javascript:to_audit(0)">
+                <div class="admin_task">
+                    <span class="glyphicon glyphicon-remove-circle" style="color: red; font-size: 30px;"></span>
+                    <div class="task_font">审核未通过</div>
+                    <div class="task_num">{{ fsh }}</div>
+                </div>
+            </a>
+        </div>
+    </div>
 
-    <nav style="text-align: center">
-        <ul class="pagination">
-            <li>
-                <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" aria-label="Previous">上一页</a>
-            </li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-                <a href="#" aria-label="Previous">下一页</a>
-            </li>
-            <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <div id="audit_task">
+        <table class="table" id="audit" style="margin-top: 20px;">
+            <thead style="font-size: 14px; font-weight: 800;">
+                <tr style="font-size: 20px; text-align: left;">
+                    <td colspan="5">待审核任务</td>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td>类别</td>
+                    <td>任务描述</td>
+                    <td>预览图</td>
+                    <td>审核</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% if not warts %}
+                    <tr>
+                        <td colspan="5">没有待审核任务!</td>
+                    </tr>
+                {% else %}
+                    {% for p in warts %}
+                        <tr>
+                            <td>{{ p.id }}</td>
+                            <td>{{ p.group.name }}</td>
+                            <td>
+                                <textarea class="form-control" disabled>{{ p.description }}</textarea>
+                            </td>
+                            <td>
+                                <div id="gallery">
+                                    <a href="{{ MEDIA_URL }}{{ p.screen_shot }}">
+                                        <img width="150px" src="{{ MEDIA_URL }}{{ p.screen_shot }}" />
+                                    </a>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="/plan/task_audit/{{ p.id }}"><button class="btn btn-primary btn-block btn-sm" style="width: 100%;">审核</button></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+
+        <nav style="text-align: center">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" aria-label="Previous">上一页</a>
+                </li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Previous">下一页</a>
+                </li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
 {% endblock %}

@@ -41,7 +41,7 @@ class MenuViews(generic.View):
     def get(self, request):
 
         if not request.user.is_authenticated():
-            return ('/?next=%s' % request.path)
+            return HttpResponseRedirect('/?next=%s' % request.path)
 
         context = {}
 

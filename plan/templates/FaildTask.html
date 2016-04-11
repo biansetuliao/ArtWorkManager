@@ -16,34 +16,34 @@
 <table class="table" id="audit" style="margin-top: 20px;">
     <thead style="font-size: 14px; font-weight: 800;">
         <tr style="font-size: 20px; text-align: left;">
-            <td colspan="5">审核通过任务</td>
+            <td colspan="5">审核未通过任务</td>
         </tr>
         <tr>
             <td>ID</td>
             <td>类别</td>
-            <td>任务描述</td>
             <td>预览图</td>
+            <td>审核未通过原因</td>
         </tr>
     </thead>
     <tbody>
-        {% if not parts %}
+        {% if not farts %}
             <tr>
-                <td colspan="5">没有任务通过任务!</td>
+                <td colspan="4">没有审核未通过任务!</td>
             </tr>
         {% else %}
-            {% for p in parts %}
+            {% for p in farts %}
                 <tr>
                     <td>{{ p.id }}</td>
                     <td>{{ p.group.name }}</td>
-                    <td>
-                        <textarea class="form-control" disabled>{{ p.description }}</textarea>
-                    </td>
                     <td>
                         <div id="gallery">
                             <a href="{{ MEDIA_URL }}{{ p.screen_shot }}">
                                 <img width="150px" src="{{ MEDIA_URL }}{{ p.screen_shot }}" />
                             </a>
                         </div>
+                    </td>
+                    <td>
+                        <textarea class="form-control" disabled>{{ p.reason }}</textarea>
                     </td>
                 </tr>
             {% endfor %}
