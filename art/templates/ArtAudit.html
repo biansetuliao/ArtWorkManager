@@ -1,36 +1,32 @@
 {% extends 'ArtBase.html' %}
 {% block content %}
 
-    <h3>等待上传资源任务</h3>
+    <h3>等待审核任务</h3>
     <table class="table" id="audit" style="margin-top: 20px;">
         <thead style="font-size: 14px; font-weight: 800;">
             <tr></tr>
             <tr>
                 <td>ID</td>
                 <td>类别</td>
-                <td>任务优先级</td>
+                <td>预览图</td>
                 <td>任务描述</td>
-                <td>上传资源</td>
             </tr>
         </thead>
         <tbody>
-            {% if not darts %}
+            {% if not sart_list %}
                 <tr>
-                    <td colspan="5">没有等待上传资源的任务!</td>
+                    <td colspan="4">没有待审核任务!</td>
                 </tr>
             {% else %}
-                {% for p in darts %}
+                {% for p in sart_list %}
                     <tr>
                         <td>{{ p.id }}</td>
                         <td>{{ p.group.name }}</td>
-                        <td>{{ p.priority }}</td>
                         <td>
-                            <textarea class="form-control" disabled>{{ p.description }}</textarea>
+                            <img width="150px" src="{{ MEDIA_URL }}{{ p.screen_shot }}"/>
                         </td>
                         <td>
-                            <a href="/art/upload/?art_id={{ p.id }}">
-                                <button class="btn btn-primary btn-block btn-sm" style="width: 100%;">上传</button>
-                            </a>
+                            <textarea class="form-control" disabled>{{ p.description }}</textarea>
                         </td>
                     </tr>
                 {% endfor %}

@@ -1,0 +1,53 @@
+{% extends 'ArtBase.html' %}
+{% block content %}
+
+    <h3>修改资源</h3>
+    <div class="artinfos" style="height: 400px;">
+        <div class="col-xs-6" style="height: 400px;">
+            <h4>预览图<small>审核未通过资源预览图</small></h4>
+            <div class="task_preview">
+                <img width="100%" src="" />
+            </div>
+            <h4>审核意见</h4>
+            <textarea class="form-control" style="height: 100px; resize: none;" disabled></textarea>
+        </div>
+        <div class="col-xs-6" style="height: 400px;">
+            <h4>任务信息</h4>
+            <div id="pic_info">
+                <div class="col-xs-5">类别</div>
+                <div class="col-xs-7">{{ p.group }}</div>
+            </div>
+            <div id="pic_info">
+                <div class="col-xs-5">{{ q.name }}</div>
+                <div class="col-xs-7">{{ q.value }}</div>
+            </div>
+        </div>
+    </div>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="uploads">
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label for="priority">资源截图</label>
+                    <input type="file" class="form-control" name="preview">
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label for="priority">资源原文件</label>
+                    <input type="file" class="form-control" name="resource">
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <button class="btn btn-primary btn-block btn-sm" style="width: 100%;">上传</button>
+            </div>
+            <div class="col-xs-2">
+                <a href="/art/faild/">
+                    <button class="btn btn-primary btn-block btn-sm" style="width: 100%;" type="button">返回</button>
+                </a>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'ArtBase.html' %}
+{% block content %}
+
+    <h3>上传资源</h3>
+
+    {% for p in art_list %}
+        <div class="artinfos">
+            <div class="col-xs-6">
+                <h4>任务描述</h4>
+                <textarea class="form-control" style="height: 250px; resize: none;" disabled>{{ p.description }}</textarea>
+            </div>
+            <div class="col-xs-6">
+                <h4>任务信息</h4>
+                <div id="pic_info">
+                    <div class="col-xs-5">类别</div>
+                    <div class="col-xs-7">{{ p.group }}</div>
+                </div>
+                {% for q in p.art_info %}
+                    <div id="pic_info">
+                        <div class="col-xs-5">{{ q.name }}</div>
+                        <div class="col-xs-7">{{ q.value }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+    <form action="{% url 'art:resource_upload' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="uploads">
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label for="priority">资源截图</label>
+                    <input type="file" class="form-control" name="preview">
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <label for="priority">资源原文件</label>
+                    <input type="file" class="form-control" name="resource">
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <button class="btn btn-primary btn-block btn-sm" style="width: 100%;">上传</button>
+            </div>
+            <div class="col-xs-2">
+                <input type="hidden" name="art_id" value="{{ art_id }}">
+                <a href="/art/">
+                    <button class="btn btn-primary btn-block btn-sm" style="width: 100%;" type="button">返回</button>
+                </a>
+            </div>
+        </div>
+    </form>
+
+
+{% endblock %}

@@ -68,7 +68,7 @@ class Art(models.Model):
     user = models.ForeignKey(User)
     group = models.ForeignKey(Group)
     description = models.TextField()
-    priority = models.IntegerField(unique=True)
+    priority = models.IntegerField()
     version = models.CharField(max_length=50)
     upload_time = models.DateTimeField(auto_now_add=True)
     screen_shot = models.ImageField(upload_to=screen_shot_path, null=True)

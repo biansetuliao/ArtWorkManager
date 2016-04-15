@@ -25,15 +25,48 @@
         </div>
     </div>
 
-    <div class="plan">
+    <div class="art">
         <div class="row">
             <div class="col-xs-3">
                 <h2>资源管理</h2>
-                <ul>
-                    <li><a href="#">待上传资源任务</a></li>
-                    <li><a href="#">已通过审核资源</a></li>
-                    <li><a href="#">未通过审核资源</a></li>
-                </ul>
+                <div class="row">
+                    <div class="col-xs-12" style="margin-top: 20px;">
+                        <a href="/art/">
+                            <div class="admin_task">
+                                <div class="dsh"></div>
+                                <div class="task_font">等待上传</div>
+                                <div class="task_num">{{ ddsc }}</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-12" style="margin-top: 20px;">
+                        <a href="/art/audit/">
+                            <div class="admin_task">
+                                <div class="dsh" style="background: #337ab7;"></div>
+                                <div class="task_font">等待审核</div>
+                                <div class="task_num">{{ ddsh }}</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-12" style="margin-top: 20px;">
+                        <a href="/art/pass/">
+                            <div class="admin_task">
+                                <span class="glyphicon glyphicon-ok-circle" style="color: green; font-size: 30px;"></span>
+                                <div class="task_font">审核通过</div>
+                                <div class="task_num">{{ psh }}</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-12" style="margin-top: 20px; margin-bottom: 20px;">
+                        <a href="/art/faild/">
+                            <div class="admin_task">
+                                <span class="glyphicon glyphicon-remove-circle" style="color: red; font-size: 30px;"></span>
+                                <div class="task_font">审核未通过</div>
+                                <div class="task_num">{{ fsh }}</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
                 <a href="/login/menu"><div id="back">返回主页</div></a>
             </div>
             <div class="col-xs-9">

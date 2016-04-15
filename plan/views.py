@@ -346,12 +346,14 @@ def create_task(request):
     art_id = up_art.id
     art = list(Art.objects.filter(id=art_id)).pop()
     for p in tags:
-        tag_values = request.POST[p.group.name + '_' + p.tag.name]
+        tag_id = request.POST[p.group.name + '_' + p.tag.name]
         tag_object = list(Tag.objects.filter(id=p.tag.id)).pop()
-        up_info = ArtInfo(art=art,
-                          tag=tag_object,
-                          value=tag_values)
-        up_info.save()
+        tag_values = list(TagInfo.objects.filter(id=int(tag_id)))
+        for p in tag_values:
+            up_info = ArtInfo(art=art,
+                              tag=tag_object,
+                              value=p.name)
+            up_info.save()
 
     return HttpResponseRedirect("/plan/")
 
