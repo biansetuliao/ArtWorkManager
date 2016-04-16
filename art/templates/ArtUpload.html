@@ -23,34 +23,35 @@
                 {% endfor %}
             </div>
         </div>
-    {% endfor %}
 
-    <form action="{% url 'art:resource_upload' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="uploads">
-            <div class="col-xs-4">
-                <div class="form-group">
-                    <label for="priority">资源截图</label>
-                    <input type="file" class="form-control" name="preview">
+        <form action="{% url 'art:resource_upload' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="uploads">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label for="priority">资源截图</label>
+                        <input type="file" class="form-control" name="preview">
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label for="priority">资源原文件</label>
+                        <input type="file" class="form-control" name="resource">
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <button class="btn btn-primary btn-block btn-sm" style="width: 100%;">{{ p.big_version }}上传</button>
+                </div>
+                <div class="col-xs-2">
+                    <input type="hidden" name="big_version" value="{{ p.big_version }}">
+                    <input type="hidden" name="art_id" value="{{ art_id }}">
+                    <a href="/art/">
+                        <button class="btn btn-primary btn-block btn-sm" style="width: 100%;" type="button">返回</button>
+                    </a>
                 </div>
             </div>
-            <div class="col-xs-4">
-                <div class="form-group">
-                    <label for="priority">资源原文件</label>
-                    <input type="file" class="form-control" name="resource">
-                </div>
-            </div>
-            <div class="col-xs-2">
-                <button class="btn btn-primary btn-block btn-sm" style="width: 100%;">上传</button>
-            </div>
-            <div class="col-xs-2">
-                <input type="hidden" name="art_id" value="{{ art_id }}">
-                <a href="/art/">
-                    <button class="btn btn-primary btn-block btn-sm" style="width: 100%;" type="button">返回</button>
-                </a>
-            </div>
-        </div>
-    </form>
+        </form>
+    {% endfor %}
 
 
 {% endblock %}

@@ -295,11 +295,12 @@ a:hover{
 }
 
 .error{
-    width: 100%;
+    width: 90%;
+    margin: auto;
     border: 2px solid #cc1111;
     color: #cc1111;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     text-align: center;
     font-size: 12px;
 }

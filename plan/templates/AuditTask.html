@@ -1,68 +1,87 @@
 {% extends 'PlanBase.html' %}
 {% block content %}
 
+    <script>
+        $(function() {
+            $('#art{{ art_id }}').poptrox({
+                usePopupCaption: true
+            });
+        });
+    </script>
     <h2>审核任务</h2>
-    <div class="row">
-        <div class="col-xs-7">
-            <h3>预览图</h3>
-            <a href="">
-                <img width="100%" src="http://rack.2.mshcdn.com/media/ZgkyMDE1LzA5LzEzLzNjL2dvb2dsZXRodW1iLmIyNGE0LmpwZwpwCXRodW1iCTk1MHg1MzQjCmUJanBn/63126c72/af4/google-thumb.jpg" />
-            </a>
-            <h3>审核意见</h3>
-            <label for="description">是否通过</label>
-            <div class="radio">
-                <label>
-                    <input type="radio" value="1" name="is_pass">通过
-                </label>
-                <label style="margin-left: 20px">
-                    <input type="radio" value="0" name="is_pass">未通过
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="description">修改意见</label>
-                <textarea class="form-control" name="reason" placeholder="任务通过审核,不需填写" style="height: 100px; resize: none;"></textarea>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <button class="btn btn-sm btn-primary btn-block" style="width: 140px;">提交</button>
-                </div>
-                <div class="col-xs-8">
-                    <a href="/plan/audit_plan/">
-                        <button class="btn btn-sm btn-primary btn-block" style="width: 140px;" type="button">返回</button>
+    {% for p in art_list %}
+        <div class="row">
+            <div class="col-xs-7">
+                <form action="{% url 'plan:download' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ art_id }}" name="art_id">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <h3>预览图</h3>
+                        </div>
+                        <div class="col-xs-4">
+                            <button class="btn btn-sm btn-primary btn-block" style="width: 120px; margin-top: 20px;">下载</button>
+                        </div>
+                    </div>
+                </form>
+                <div id="art{{ art_id }}">
+                    <a href="{{ MEDIA_URL }}{{ p.preview }}">
+                        <img width="100%" src="{{ MEDIA_URL }}{{ p.preview }}" />
                     </a>
                 </div>
+                <form method="post" id="taskaudit" action="">
+                    {% csrf_token %}
+                    <h3>审核意见</h3>
+                    <label for="description">是否通过</label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" value="1" name="is_pass">通过
+                        </label>
+                        <label style="margin-left: 20px">
+                            <input type="radio" value="0" name="is_pass">未通过
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">修改意见</label>
+                        <textarea class="form-control" name="reason" placeholder="任务通过审核,不需填写" style="height: 100px; resize: none;"></textarea>
+                    </div>
+                    <input type="hidden" value="{{ art_id }}" name="art_id">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <button class="btn btn-sm btn-primary btn-block" style="width: 140px;">提交</button>
+                        </div>
+                        <div class="col-xs-8">
+                            <a href="/plan/audit_plan/">
+                                <button class="btn btn-sm btn-primary btn-block" style="width: 140px;" type="button">返回</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-xs-5">
+                <h3 class="row">任务信息</h3>
+                <div class="row">
+                    <div class="col-xs-4" id="at1">提交用户</div>
+                    <div class="col-xs-8" id="at2">{{ p.user }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4" id="at1">类别</div>
+                    <div class="col-xs-8" id="at2">{{ p.group.name }}</div>
+                </div>
+                {% for q in p.artinfo  %}
+                    <div class="row">
+                        <div class="col-xs-4" id="at1">{{ q.tag.name }}</div>
+                        <div class="col-xs-8" id="at2">{{ q.value }}</div>
+                    </div>
+                {% endfor %}
+                <div class="row">
+                    <div class="col-xs-4" id="at1">版本号</div>
+                    <div class="col-xs-8" id="at2">{{ p.version }}</div>
+                </div>
+                <div class="row" id="at3">任务描述</div>
+                <div class="row" id="at4">{{ p.decription }}</div>
             </div>
         </div>
-        <div class="col-xs-5">
-            <h3 class="row">任务信息</h3>
-            <div class="row">
-                <div class="col-xs-4" id="at1">提交用户</div>
-                <div class="col-xs-8" id="at2">Tom</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4" id="at1">类别</div>
-                <div class="col-xs-8" id="at2">test</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4" id="at1">编号</div>
-                <div class="col-xs-8" id="at2">102</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4" id="at1">类型</div>
-                <div class="col-xs-8" id="at2">test1</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4" id="at1">版本号</div>
-                <div class="col-xs-8" id="at2">1.2.1</div>
-            </div>
-            <div class="row" id="at3">任务描述</div>
-            <div class="row" id="at4">
-                fklsdjflksdfldslkfsdlfslkdflkdsjfklsdjklfjsdkljfklsdjfklsdjfkldsjfklsdjfklsjsklfjklsjdklsjfsdlk
-                fklsdjflksdfldslkfsdlfslkdflkdsjfklsdjklfjsdkljfklsdjfklsdjfkldsjfklsdjfklsjsklfjklsjdklsjfsdlk
-                fklsdjflksdfldslkfsdlfslkdflkdsjfklsdjklfjsdkljfklsdjfklsdjfkldsjfklsdjfklsjsklfjklsjdklsjfsdlk
-                fklsdjflksdfldslkfsdlfslkdflkdsjfklsdjklfjsdkljfklsdjfklsdjfkldsjfklsdjfklsjsklfjklsjdklsjfsdlk
-            </div>
-        </div>
-    </div>
+    {% endfor %}
 
 {% endblock %}

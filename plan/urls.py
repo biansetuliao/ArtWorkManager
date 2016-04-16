@@ -17,10 +17,12 @@ urlpatterns = [
 
     url(r'^faild_task/$', views.FaildTaskView.as_view(), name='faild_task'),
 
-    url(r'^task_audit/$', views.AuditTaskView.as_view(), name='task_audit'),
+    url(r'^task_audit/(?P<art_id>\d+)/$', views.AuditTaskView.as_view(), name='task_audit'),
 
     url(r'^create_task/$', views.create_task, name='create_task'),
 
     url(r'^del_task/$', views.del_task, name='del_task'),
+
+    url(r'^download/$', views.download, name='download'),
 
 ]

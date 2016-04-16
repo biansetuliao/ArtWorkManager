@@ -61,7 +61,7 @@ def screen_shot_path(instance, filename):
 
 def resource_file_path(instance, filename):
     file_time = time.strftime('%Y%m%d%H%M%s', time.localtime(time.time()))
-    filename = str(file_time) + '.' + instance.group.format
+    filename = str(file_time) + instance.group.format
     return '/'.join([instance.group.name, 'resource', time.strftime('%m%d', time.localtime(time.time())), filename])
 
 class Art(models.Model):

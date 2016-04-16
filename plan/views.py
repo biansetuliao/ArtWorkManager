@@ -6,10 +6,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from home.models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
+from wsgiref.util import FileWrapper
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import simplejson
 import re
 import time
+import mimetypes
 
 
 def is_sign_in(request):
@@ -152,7 +155,20 @@ class PlanAuditView(generic.View):
             if p not in yarts:
                 wsh_list.append(p)
 
-        wsh = len(wsh_list)
+        if wsh_list:
+            wsh = len(wsh_list)
+            paginator = Paginator(wsh_list, 1)
+            page = request.GET.get('page')
+            try:
+                wshs = paginator.page(page)
+            except PageNotAnInteger:
+                wshs = paginator.page(1)
+            except EmptyPage:
+                wshs = paginator.page(paginator.num_pages)
+        else:
+            wsh = 0
+            wshs = []
+            page = ""
 
         parts = list(Art.objects.filter(is_audit=1, is_pass=1))
         if parts:
@@ -171,6 +187,8 @@ class PlanAuditView(generic.View):
             'wsh': wsh,
             'psh': psh,
             'fsh': fsh,
+            'wshs': wshs,
+            'page': page,
         }
 
         return render(request,
@@ -181,13 +199,35 @@ class PlanAuditView(generic.View):
 class AuditTaskView(generic.View):
     templates_file = 'AuditTask.html'
 
-    def get(self, request):
+    def get(self, request, art_id):
 
         is_log_in = is_sign_in(request)
         if is_log_in:
             return HttpResponseRedirect(is_log_in)
 
-        context = {}
+        arts = list(Art.objects.filter(id=int(art_id)))
+        if not arts:
+            return HttpResponse("Art ID错误或不存在!")
+
+        art_list = []
+        for p in arts:
+            artinfos = list(ArtInfo.objects.filter(id=p.id))
+            if not artinfos:
+                return HttpResponse("ArtInfo不存在!")
+            a = {"id": p.id,
+                 "group": p.group,
+                 "version": p.version,
+                 "preview": p.screen_shot,
+                 "resource": p.resource_file,
+                 "decription": p.description,
+                 "artinfo": artinfos,
+                 "user": p.user.username,}
+            art_list.append(a)
+
+        context = {
+            "art_id": art_id,
+            "art_list": art_list,
+        }
 
         return render(request,
                       self.templates_file,
@@ -372,3 +412,25 @@ def del_task(request):
         return HttpResponse("任务不存在或Art ID 错误!")
 
     return HttpResponseRedirect('/plan/admin_plan/')
+
+
+def download(request):
+
+    if "art_id" in request.POST and request.POST['art_id']:
+        art_id = request.POST['art_id']
+    else:
+        return HttpResponse("ArtID1错误或不存在!")
+
+    #download
+    arts = list(Art.objects.filter(id=int(art_id)))
+    if not arts:
+        return HttpResponse("ArtID错误或不存在!")
+    for p in arts:
+
+        url = p.resource_file.path
+        wrapper = FileWrapper(open(url, 'rb'))
+        content_type = mimetypes.guess_type(url)
+        response = HttpResponse(wrapper, content_type)
+        response['Content-Disposition'] = "attachment; filename=%s" % 'test' + p.group.format
+
+        return response
