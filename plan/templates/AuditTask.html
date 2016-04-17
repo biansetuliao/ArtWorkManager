@@ -19,8 +19,8 @@
                         <div class="col-xs-8">
                             <h3>预览图</h3>
                         </div>
-                        <div class="col-xs-4">
-                            <button class="btn btn-sm btn-primary btn-block" style="width: 120px; margin-top: 20px;">下载</button>
+                        <div class="col-xs-4" style="text-align: right;">
+                            <button class="btn btn-sm btn-default" style="width: 60px; margin-top: 20px;">下载</button>
                         </div>
                     </div>
                 </form>
@@ -29,7 +29,7 @@
                         <img width="100%" src="{{ MEDIA_URL }}{{ p.preview }}" />
                     </a>
                 </div>
-                <form method="post" id="taskaudit" action="">
+                <form method="post" action="{% url 'plan:audit' %}">
                     {% csrf_token %}
                     <h3>审核意见</h3>
                     <label for="description">是否通过</label>

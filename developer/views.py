@@ -95,8 +95,12 @@ def search_image(request):
         if tag_name == 'group':
             group_id = int(req[tag_name])
             id_by_group = []
-            for p in list(Art.objects.filter(group=group_id, is_pass=1, is_audit=1)):
-                id_by_group.append(p.id)
+            groups = list(Art.objects.filter(group=group_id, is_pass=1, is_audit=1))
+            if groups:
+                for p in groups:
+                    id_by_group.append(p.id)
+            else:
+                id_by_group = []
             image_list.append(id_by_group)
         else:
             tag_id = int(req[tag_name])
@@ -104,7 +108,11 @@ def search_image(request):
             id_by_tag = []
             for q in list(ArtInfo.objects.filter(tag=tag_id, value=tag_name.name)):
                 id_by_tag.append(q.art.id)
+
             if id_by_tag:
+                image_list.append(id_by_tag)
+            else:
+                id_by_tag = []
                 image_list.append(id_by_tag)
 
     x = image_list.pop()
@@ -116,20 +124,26 @@ def search_image(request):
                     y.append(m)
             x = y
 
-    art_list = []
-    for p in x:
-        for b in list(Art.objects.filter(id=p)):
-            info_list = []
-            for q in list(ArtInfo.objects.filter(pic_id=p)):
-                import_info = {'name': q.tag.name, 'value': q.value}
-                info_list.append(import_info)
-                art_info = {'art_id': b.id, 'user': b.user, 'group': b.group, 'time': b.upload_time, 'version': b.version, 'preview': b.screen_shot, 'info_list': info_list}
-            art_list.append(art_info)
+    if x:
 
-    def artid(a):
-        return a['art_id']
+        art_list = []
+        for p in x:
+            for b in list(Art.objects.filter(id=p)):
+                info_list = []
+                for q in list(ArtInfo.objects.filter(art=int(p))):
+                    import_info = {'name': q.tag.name, 'value': q.value}
+                    info_list.append(import_info)
+                    art_info = {'art_id': b.id, 'user': b.user, 'group': b.group, 'time': b.upload_time, 'version': b.version, 'preview': b.screen_shot, 'info_list': info_list}
+                art_list.append(art_info)
 
-    artinfo_list = sorted(art_list, key=artid, reverse=True)
+        def artid(a):
+            return a['art_id']
+
+        artinfo_list = sorted(art_list, key=artid, reverse=True)
+
+    else:
+
+        artinfo_list = []
 
     context = {
         'artinfo_list': artinfo_list,

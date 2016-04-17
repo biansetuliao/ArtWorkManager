@@ -1,5 +1,4 @@
 {% extends 'DeveloperBase.html' %}
-{% load static from staticfiles %}
 {% block content %}
 
     <h2>搜索结果</h2>
@@ -7,7 +6,7 @@
         {% for p in artinfo_list %}
             <div class="artinfo">
                 <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-xs-7">
                         <h4 style="margin-left: 10px;">预览图<small>-点击图片可看原图</small></h4>
                         <div class="preview">
                             <div id="gallery">
@@ -21,7 +20,7 @@
                             <input type="hidden" value="{{ p.id }}" name="art_id">
                         </form>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-5">
                         <h4 class="row">资源信息</h4>
                         <div class="row" id="pic_info">
                             <div class="col-xs-5">类别</div>
@@ -49,33 +48,8 @@
                 </div>
             </div>
         {% endfor %}
-
-        <nav style="text-align: center">
-            <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" aria-label="Previous">上一页</a>
-                </li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                    <a href="#" aria-label="Previous">下一页</a>
-                </li>
-                <li>
-                    <a href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
     {% else %}
         <h3>无结果!请更换搜索条件再搜索!</h3>
     {% endif %}
+
 {% endblock %}

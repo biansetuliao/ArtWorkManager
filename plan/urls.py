@@ -25,4 +25,6 @@ urlpatterns = [
 
     url(r'^download/$', views.download, name='download'),
 
+    url(r'^audit/$', views.audit, name='audit'),
+
 ]

@@ -1,78 +1,117 @@
-{% load static from staticfiles %}
-<script src="{% static 'ArtWorkManager/js/jquery.poptrox.js' %}"></script>
-<style>
-    #gallery { overflow: hidden; }
-    #gallery a { display: block; }
-    #gallery a img { display: block; border: 0; margin: auto; }
-</style>
-<script>
-    $(function() {
-        $('#gallery').poptrox({
-            usePopupCaption: true
-        });
+{% extends 'PlanBase.html' %}
+{% block content %}
 
-    });
-</script>
-<table class="table" id="audit" style="margin-top: 20px;">
-    <thead style="font-size: 14px; font-weight: 800;">
-        <tr style="font-size: 20px; text-align: left;">
-            <td colspan="5">审核未通过任务</td>
-        </tr>
-        <tr>
-            <td>ID</td>
-            <td>类别</td>
-            <td>预览图</td>
-            <td>审核未通过原因</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% if not farts %}
-            <tr>
-                <td colspan="4">没有审核未通过任务!</td>
+    <h2>审核任务</h2>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-4">
+            <a href="/plan/audit_plan/">
+                <div class="admin_task">
+                    <div class="dsh"></div>
+                    <div class="task_font">等待审核</div>
+                    <div class="task_num">{{ wsh }}</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <a href="/plan/pass_task/">
+                <div class="admin_task">
+                    <span class="glyphicon glyphicon-ok-circle" style="color: green; font-size: 30px;"></span>
+                    <div class="task_font">审核通过</div>
+                    <div class="task_num">{{ psh }}</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <a href="/plan/faild_task/">
+                <div class="admin_task">
+                    <span class="glyphicon glyphicon-remove-circle" style="color: red; font-size: 30px;"></span>
+                    <div class="task_font">审核未通过</div>
+                    <div class="task_num">{{ fsh }}</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <table class="table" id="audit" style="margin-top: 20px;">
+        <thead style="font-size: 14px; font-weight: 800;">
+            <tr style="font-size: 20px; text-align: left;">
+                <td colspan="5">审核未通过任务</td>
             </tr>
-        {% else %}
-            {% for p in farts %}
+            <tr>
+                <td>ID</td>
+                <td>类别</td>
+                <td>预览图</td>
+                <td>审核未通过原因</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% if not farts %}
                 <tr>
-                    <td>{{ p.id }}</td>
-                    <td>{{ p.group.name }}</td>
-                    <td>
-                        <div id="gallery">
-                            <a href="{{ MEDIA_URL }}{{ p.screen_shot }}">
-                                <img width="150px" src="{{ MEDIA_URL }}{{ p.screen_shot }}" />
-                            </a>
-                        </div>
-                    </td>
-                    <td>
-                        <textarea class="form-control" disabled>{{ p.reason }}</textarea>
+                    <td colspan="4">
+                        <h4>没有审核未通过任务!</h4>
                     </td>
                 </tr>
-            {% endfor %}
-        {% endif %}
-    </tbody>
-</table>
+            {% else %}
+                {% for p in farts %}
+                    <tr>
+                        <td>{{ p.id }}</td>
+                        <td>{{ p.group.name }}</td>
+                        <td>
+                                <script>
+                                    $(function() {
+                                        $('#gallery{{ p.id }}').poptrox({
+                                            usePopupCaption: true
+                                        });
+                                    });
+                                </script>
+                            <div id="gallery{{ p.id }}">
+                                <a href="{{ MEDIA_URL }}{{ p.screen_shot }}">
+                                    <img width="150px" src="{{ MEDIA_URL }}{{ p.screen_shot }}" />
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <textarea class="form-control" disabled>{{ p.reason }}</textarea>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
 
-<nav style="text-align: center">
-    <ul class="pagination">
-        <li>
-            <a href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <li>
-            <a href="#" aria-label="Previous">上一页</a>
-        </li>
-        <li class="active"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li>
-            <a href="#" aria-label="Previous">下一页</a>
-        </li>
-        <li>
-            <a href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+    {% if farts and farts.paginator.num_pages != 1 %}
+        <nav style="text-align: center;">
+            <ul class="pagination">
+                <li>
+                    <a href="/plan/faild_task/?page=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li>
+                    {% if farts.has_previous %}
+                        <a href="/plan/faild_task/?page={{ farts.previous_page_number }}" aria-label="Previous">上一页</a>
+                    {% else %}
+                        <a href="/plan/faild_task/?page={{ farts.number }}" aria-label="Previous">上一页</a>
+                    {% endif %}
+                </li>
+                {% for p in farts.paginator.page_range %}
+                    <li {% if farts.number == p %}class="active"{% endif %}><a href="/plan/faild_task/?page={{ p }}">{{ p }}</a></li>
+                {% endfor %}
+                <li>
+                    {% if farts.has_next %}
+                        <a href="/plan/faild_task/?page={{ farts.next_page_number }}" aria-label="Previous">下一页</a>
+                    {% else %}
+                        <a href="/plan/faild_task/?page={{ farts.number }}" aria-label="Previous">下一页</a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a href="/plan/faild_task/?page={{ farts.paginator.num_pages }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
+
+{% endblock %}

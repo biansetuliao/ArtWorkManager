@@ -14,7 +14,7 @@
             </a>
         </div>
         <div class="col-xs-4">
-            <a href="javascript:to_audit(1)">
+            <a href="/plan/pass_task/">
                 <div class="admin_task">
                     <span class="glyphicon glyphicon-ok-circle" style="color: green; font-size: 30px;"></span>
                     <div class="task_font">审核通过</div>
@@ -23,7 +23,7 @@
             </a>
         </div>
         <div class="col-xs-4">
-            <a href="javascript:to_audit(0)">
+            <a href="/plan/faild_task/">
                 <div class="admin_task">
                     <span class="glyphicon glyphicon-remove-circle" style="color: red; font-size: 30px;"></span>
                     <div class="task_font">审核未通过</div>
@@ -50,7 +50,9 @@
             <tbody>
                 {% if not wshs %}
                     <tr>
-                        <td colspan="5">没有待审核任务!</td>
+                        <td colspan="5">
+                            <h4>没有待审核任务!</h4>
+                        </td>
                     </tr>
                 {% else %}
                     {% for p in wshs %}
@@ -83,37 +85,39 @@
             </tbody>
         </table>
 
-        <nav style="text-align: center">
-            <ul class="pagination">
-                <li>
-                    <a href="/plan/audit_plan/?page=1" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li>
-                    {% if wshs.has_previous %}
-                        <a href="/plan/audit_plan/?page={{ wshs.previous_page_number }}" aria-label="Previous">上一页</a>
-                    {% else %}
-                        <a href="/plan/audit_plan/?page={{ wshs.number }}" aria-label="Previous">上一页</a>
-                    {% endif %}
-                </li>
-                {% for p in wshs.paginator.page_range %}
-                    <li {% if wshs.number == p %}class="active"{% endif %}><a href="/plan/audit_plan/?page={{ p }}">{{ p }}</a></li>
-                {% endfor %}
-                <li>
-                    {% if wshs.has_next %}
-                        <a href="/plan/audit_plan/?page={{ wshs.next_page_number }}" aria-label="Previous">下一页</a>
-                    {% else %}
-                        <a href="/plan/audit_plan/?page={{ wshs.number }}" aria-label="Previous">下一页</a>
-                    {% endif %}
-                </li>
-                <li>
-                    <a href="/plan/audit_plan/?page={{ wshs.paginator.num_pages }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        {% if wshs and wshs.paginator.num_pages != 1 %}
+            <nav style="text-align: center;">
+                <ul class="pagination">
+                    <li>
+                        <a href="/plan/audit_plan/?page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li>
+                        {% if wshs.has_previous %}
+                            <a href="/plan/audit_plan/?page={{ wshs.previous_page_number }}" aria-label="Previous">上一页</a>
+                        {% else %}
+                            <a href="/plan/audit_plan/?page={{ wshs.number }}" aria-label="Previous">上一页</a>
+                        {% endif %}
+                    </li>
+                    {% for p in wshs.paginator.page_range %}
+                        <li {% if wshs.number == p %}class="active"{% endif %}><a href="/plan/audit_plan/?page={{ p }}">{{ p }}</a></li>
+                    {% endfor %}
+                    <li>
+                        {% if wshs.has_next %}
+                            <a href="/plan/audit_plan/?page={{ wshs.next_page_number }}" aria-label="Previous">下一页</a>
+                        {% else %}
+                            <a href="/plan/audit_plan/?page={{ wshs.number }}" aria-label="Previous">下一页</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        <a href="/plan/audit_plan/?page={{ wshs.paginator.num_pages }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}
     </div>
 
 {% endblock %}

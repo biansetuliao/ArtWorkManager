@@ -25,6 +25,20 @@ def is_sign_in(request):
             return ('/login/menu')
 
 
+def pagination(request, number, target):
+
+    paginator = Paginator(target, number)
+    page = request.GET.get('page')
+    try:
+        target = paginator.page(page)
+    except PageNotAnInteger:
+        target = paginator.page(1)
+    except EmptyPage:
+        target = paginator.page(paginator.num_pages)
+
+    return (target)
+
+
 class IndexView(generic.View):
     templates_file = 'PlanIndex.html'
 
@@ -109,9 +123,10 @@ class PlanAdminView(generic.View):
             return HttpResponseRedirect(is_log_in)
 
         # img null
-        narts = list(Art.objects.filter(screen_shot="", resource_file=""))
-        if narts:
-            nimg = len(narts)
+        nart_list = list(Art.objects.filter(screen_shot="", resource_file=""))
+        if nart_list:
+            narts = pagination(request, 10, nart_list)
+            nimg = len(nart_list)
         else:
             narts = []
             nimg = 0
@@ -134,6 +149,55 @@ class PlanAdminView(generic.View):
                       context)
 
 
+def count(request):
+
+    yarts = list(Art.objects.filter(screen_shot="", resource_file=""))
+    if not yarts:
+        yarts = []
+    warts = list(Art.objects.filter(is_audit=0))
+    if not warts:
+        warts = []
+
+    wsh_list = []
+    for p in warts:
+        if p not in yarts:
+            wsh_list.append(p)
+
+    if wsh_list:
+        wsh = len(wsh_list)
+        wshs = pagination(request, 10, wsh_list)
+    else:
+        wsh = 0
+        wshs = []
+
+    part_list = list(Art.objects.filter(is_audit=1, is_pass=1))
+    if part_list:
+        psh = len(part_list)
+        parts = pagination(request, 10, part_list)
+    else:
+        psh = 0
+        parts = []
+
+    fart_list = list(Art.objects.filter(is_audit=1, is_pass=0))
+    if fart_list:
+        fsh = len(fart_list)
+        farts = pagination(request, 10, fart_list)
+    else:
+        fsh = 0
+        farts = []
+
+    context = {
+        'wsh': wsh,
+        'psh': psh,
+        'fsh': fsh,
+        'wshs': wshs,
+        'parts': parts,
+        'farts': farts,
+    }
+
+    return context
+
+
 class PlanAuditView(generic.View):
     templates_file = 'PlanAudit.html'
 
@@ -143,53 +207,7 @@ class PlanAuditView(generic.View):
         if is_log_in:
             return HttpResponseRedirect(is_log_in)
 
-        yarts = list(Art.objects.filter(screen_shot="", resource_file=""))
-        if not yarts:
-            yarts = []
-        warts = list(Art.objects.filter(is_audit=0))
-        if not warts:
-            warts = []
-
-        wsh_list = []
-        for p in warts:
-            if p not in yarts:
-                wsh_list.append(p)
-
-        if wsh_list:
-            wsh = len(wsh_list)
-            paginator = Paginator(wsh_list, 1)
-            page = request.GET.get('page')
-            try:
-                wshs = paginator.page(page)
-            except PageNotAnInteger:
-                wshs = paginator.page(1)
-            except EmptyPage:
-                wshs = paginator.page(paginator.num_pages)
-        else:
-            wsh = 0
-            wshs = []
-            page = ""
-
-        parts = list(Art.objects.filter(is_audit=1, is_pass=1))
-        if parts:
-            psh = len(parts)
-        else:
-            psh = 0
-
-        farts = list(Art.objects.filter(is_audit=1, is_pass=0))
-        if farts:
-            fsh = len(farts)
-        else:
-            fsh = 0
-
-        context = {
-            'warts': wsh_list,
-            'wsh': wsh,
-            'psh': psh,
-            'fsh': fsh,
-            'wshs': wshs,
-            'page': page,
-        }
+        context = count(request)
 
         return render(request,
                       self.templates_file,
@@ -243,13 +261,7 @@ class PassTaskView(generic.View):
         if is_log_in:
             return HttpResponseRedirect(is_log_in)
 
-        parts = list(Art.objects.filter(is_audit=1, is_pass=1))
-        if not parts:
-            parts = []
-
-        context = {
-            'parts': parts,
-        }
+        context = count(request)
 
         return render(request,
                       self.templates_file,
@@ -265,13 +277,7 @@ class FaildTaskView(generic.View):
         if is_log_in:
             return HttpResponseRedirect(is_log_in)
 
-        farts = list(Art.objects.filter(is_audit=1, is_pass=0))
-        if not farts:
-            farts = []
-
-        context = {
-            'farts': farts,
-        }
+        context = count(request)
 
         return render(request,
                       self.templates_file,
@@ -425,12 +431,63 @@ def download(request):
     arts = list(Art.objects.filter(id=int(art_id)))
     if not arts:
         return HttpResponse("ArtID错误或不存在!")
+
     for p in arts:
 
         url = p.resource_file.path
+        f = re.compile(r'[^/]+$')
+        match = f.search(url)
+        if match:
+            filename = match.group()
+        else:
+            return HttpResponse("文件名错误!")
         wrapper = FileWrapper(open(url, 'rb'))
         content_type = mimetypes.guess_type(url)
         response = HttpResponse(wrapper, content_type)
-        response['Content-Disposition'] = "attachment; filename=%s" % 'test' + p.group.format
+        response['Content-Disposition'] = "attachment; filename=%s" % filename
 
         return response
+
+
+def audit(request):
+
+    if "art_id" in request.POST and request.POST['art_id']:
+        art_id = request.POST['art_id']
+    else:
+        return HttpResponse("ArtID不存在!")
+
+    if "is_pass" in request.POST and request.POST['is_pass']:
+        is_pass = request.POST['is_pass']
+    else:
+        return HttpResponse("请选择该资源是否通过审核!")
+
+    arts = list(Art.objects.filter(id=int(art_id)))
+    if not arts:
+        return HttpResponse("ArtID错误!")
+
+    if "0" == is_pass:
+
+        if "reason" in request.POST and request.POST['reason']:
+            reason = request.POST['reason']
+        else:
+            return HttpResponse('未通过审核原因不能为空!')
+
+        for p in arts:
+            p.is_audit = 1
+            p.is_pass = 0
+            p.reason = reason
+            p.save()
+
+        return HttpResponseRedirect("/plan/faild_task/")
+
+    elif "1" == is_pass:
+
+        for p in arts:
+            p.is_audit = 1
+            p.is_pass = 1
+            p.save()
+
+        return HttpResponseRedirect("/plan/pass_task/")
+
+    else:
+        return HttpResponse("审核失败!")
