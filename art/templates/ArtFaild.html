@@ -24,13 +24,24 @@
                         <td>{{ p.id }}</td>
                         <td>{{ p.group.name }}</td>
                         <td>
-                            <img width="150px" src="{{ MEDIA_URL }}{{ p.screen_shot }}"/>
+                            <script>
+                                $(function() {
+                                    $('#gallery{{ p.id }}').poptrox({
+                                        usePopupCaption: true
+                                    });
+                                });
+                            </script>
+                            <div id="gallery{{ p.id }}">
+                                <a href="{{ MEDIA_URL }}{{ p.screen_shot }}">
+                                    <img width="150px" src="{{ MEDIA_URL }}{{ p.screen_shot }}" />
+                                </a>
+                            </div>
                         </td>
                         <td>
                             <textarea class="form-control" disabled>{{ p.reason }}</textarea>
                         </td>
                         <td>
-                            <a href="/art/up_upload/">
+                            <a href="javascript:AjaxGet('/art/up_upload/?art_id={{ p.id }}')">
                                 <button class="btn btn-primary btn-block btn-sm" style="width: 100%;">修改</button>
                             </a>
                         </td>
@@ -73,5 +84,9 @@
             </ul>
         </nav>
     {% endif %}
+
+    <div id="popDiv" class="mydiv" style="display:none;"></div>
+    <div id="bg" class="bg" style="display:none;"></div>
+    <iframe id='popIframe' class='popIframe' frameborder='0'></iframe>
 
 {% endblock %}

@@ -17,4 +17,6 @@ urlpatterns = [
 
     url(r'^resource_upload/$', views.upload, name='resource_upload'),
 
+    url(r'^update/$', views.update, name='update'),
+
 ]

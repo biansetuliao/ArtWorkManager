@@ -24,9 +24,9 @@
                         </div>
                     </div>
                 </form>
-                <div id="art{{ art_id }}">
+                <div id="art{{ art_id }}" style="text-align: center;">
                     <a href="{{ MEDIA_URL }}{{ p.preview }}">
-                        <img width="100%" src="{{ MEDIA_URL }}{{ p.preview }}" />
+                        <img width="60%" src="{{ MEDIA_URL }}{{ p.preview }}" />
                     </a>
                 </div>
                 <form method="post" action="{% url 'plan:audit' %}">

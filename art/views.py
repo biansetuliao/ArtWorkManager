@@ -208,7 +208,33 @@ class UpdateUploadTaskView(generic.View):
         if is_log_in:
             return HttpResponseRedirect(is_log_in)
 
-        context = {}
+        if 'art_id' in request.GET and request.GET['art_id']:
+            art_id = request.GET['art_id']
+        else:
+            return HttpResponse("Art ID错误!")
+
+        arts = list(Art.objects.filter(id=int(art_id)))
+        if arts:
+            art_list = []
+            for p in arts:
+                artinfos = list(ArtInfo.objects.filter(art=p.id))
+                if artinfos:
+                    artinfo_list = []
+                    for q in artinfos:
+                        tag_name = list(GroupToTag.objects.filter(id=q.tag.id))
+                        art_info = {"name": tag_name.pop().info, "value": q.value}
+                        artinfo_list.append(art_info)
+                else:
+                    artinfo_list = []
+                a = {"id": p.id, "group": p.group.name, "big_version": p.version, "reason": p.reason, 'art_info': artinfo_list}
+                art_list.append(a)
+        else:
+            art_list = []
+
+        context = {
+            "art_list": art_list,
+            "art_id": art_id,
+        }
 
         return render(request,
                       self.templates_file,
@@ -318,6 +344,50 @@ def upload(request):
         p.version = version
         p.screen_shot = screen_shot
         p.resource_file = resource
+        p.save()
+
+    return HttpResponseRedirect('/art/audit/')
+
+
+def update(request):
+
+    if "art_id" in request.POST and request.POST['art_id']:
+        art_id = request.POST['art_id']
+    else:
+        return HttpResponse("Art ID不存在!")
+
+    if "preview" in request.FILES and request.FILES['preview']:
+        screen_shot = request.FILES['preview']
+    else:
+        return HttpResponse("截图不存在!")
+
+    if "resource" in request.FILES and request.FILES['resource']:
+        resource = request.FILES['resource']
+    else:
+        return HttpResponse("资源不存在!")
+
+    arts = list(Art.objects.filter(id=int(art_id)))
+    if not arts:
+        return HttpResponse("Art不存在!")
+
+    for p in arts:
+
+        # Delete old file
+        path = os.path.dirname(__file__) + '/../media/'
+        p_file = path + str(p.screen_shot)
+        os.remove(p_file)
+        r_file = path + str(p.resource_file)
+        os.remove(r_file)
+
+        # Determine upload file type
+        format_type = p.group.format
+        formal_type = os.path.splitext(resource.name)[1].lower()
+        if not formal_type in (format_type):
+            return HttpResponse('资源格式错误!')
+
+        p.screen_shot = screen_shot
+        p.resource_file = resource
+        p.is_audit = 0
         p.save()
 
     return HttpResponseRedirect('/art/audit/')

@@ -23,7 +23,18 @@
                         <td>{{ p.id }}</td>
                         <td>{{ p.group.name }}</td>
                         <td>
-                            <img width="150px" src="{{ MEDIA_URL }}{{ p.screen_shot }}"/>
+                            <script>
+                                $(function() {
+                                    $('#gallery{{ p.id }}').poptrox({
+                                        usePopupCaption: true
+                                    });
+                                });
+                            </script>
+                            <div id="gallery{{ p.id }}">
+                                <a href="{{ MEDIA_URL }}{{ p.screen_shot }}">
+                                    <img width="150px" src="{{ MEDIA_URL }}{{ p.screen_shot }}" />
+                                </a>
+                            </div>
                         </td>
                         <td>
                             <textarea class="form-control" disabled>{{ p.description }}</textarea>
