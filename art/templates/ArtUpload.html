@@ -1,10 +1,22 @@
-{% extends 'ArtBase.html' %}
-{% block content %}
+<div id="wall" style="width: 700px; height: 500px;">
 
-    <h3>上传资源</h3>
+    <div class="row" style="padding: 20px;">
+        <div class="col-xs-8">
+            <h3 style="margin: 0;">上传资源</h3>
+        </div>
+        <div class="col-xs-4" style="text-align: center;">
+            <a href="javascript:closeDiv();">
+                <div style="width: 26px; height: 26px; line-height: 28px; background: #337ab7; color: #ffffff; float: right;">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div style="width: 100%; height: 2px; background: #337ab7;"></div>
 
     {% for p in art_list %}
-        <div class="artinfos">
+        <div class="artinfos" style="margin-top: 20px;">
             <div class="col-xs-6">
                 <h4>任务描述</h4>
                 <textarea class="form-control" style="height: 250px; resize: none;" disabled>{{ p.description }}</textarea>
@@ -30,28 +42,27 @@
                 <div class="col-xs-4">
                     <div class="form-group">
                         <label for="priority">资源截图</label>
-                        <input type="file" class="form-control" name="preview">
+                        <input type="file" class="form-control input-sm" name="preview">
                     </div>
                 </div>
                 <div class="col-xs-4">
                     <div class="form-group">
                         <label for="priority">资源原文件</label>
-                        <input type="file" class="form-control" name="resource">
+                        <input type="file" class="form-control input-sm" name="resource">
                     </div>
                 </div>
                 <div class="col-xs-2">
-                    <button class="btn btn-primary btn-block btn-sm" style="width: 100%;">{{ p.big_version }}上传</button>
+                    <button class="btn btn-primary btn-block btn-sm" style="width: 100%;">上传</button>
                 </div>
                 <div class="col-xs-2">
                     <input type="hidden" name="big_version" value="{{ p.big_version }}">
                     <input type="hidden" name="art_id" value="{{ art_id }}">
-                    <a href="/art/">
-                        <button class="btn btn-primary btn-block btn-sm" style="width: 100%;" type="button">返回</button>
+                    <a href="javascript:closeDiv();">
+                        <button class="btn btn-primary btn-block btn-sm" style="width: 100%;" type="button">关闭</button>
                     </a>
                 </div>
             </div>
         </form>
     {% endfor %}
 
-
-{% endblock %}
+</div>

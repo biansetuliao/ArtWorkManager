@@ -35,31 +35,39 @@
             {% endif %}
         </tbody>
     </table>
-
-    <nav style="text-align: center">
-        <ul class="pagination">
-            <li>
-                <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" aria-label="Previous">上一页</a>
-            </li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-                <a href="#" aria-label="Previous">下一页</a>
-            </li>
-            <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    
+    {% if parts and parts.paginator.num_pages != 1 %}
+        <nav style="text-align: center;">
+            <ul class="pagination">
+                <li>
+                    <a href="/art/pass/?page=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li>
+                    {% if parts.has_previous %}
+                        <a href="/art/pass/?page={{ parts.previous_page_number }}" aria-label="Previous">上一页</a>
+                    {% else %}
+                        <a href="/art/pass/?page={{ parts.number }}" aria-label="Previous">上一页</a>
+                    {% endif %}
+                </li>
+                {% for p in parts.paginator.page_range %}
+                    <li {% if parts.number == p %}class="active"{% endif %}><a href="/art/pass/?page={{ p }}">{{ p }}</a></li>
+                {% endfor %}
+                <li>
+                    {% if parts.has_next %}
+                        <a href="/art/pass/?page={{ parts.next_page_number }}" aria-label="Previous">下一页</a>
+                    {% else %}
+                        <a href="/art/pass/?page={{ parts.number }}" aria-label="Previous">下一页</a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a href="/art/pass/?page={{ parts.paginator.num_pages }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
 
 {% endblock %}

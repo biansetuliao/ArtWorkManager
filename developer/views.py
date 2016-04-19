@@ -104,16 +104,18 @@ def search_image(request):
             image_list.append(id_by_group)
         else:
             tag_id = int(req[tag_name])
-            tag_name = list(TagInfo.objects.filter(id=tag_id)).pop()
-            id_by_tag = []
-            for q in list(ArtInfo.objects.filter(tag=tag_id, value=tag_name.name)):
-                id_by_tag.append(q.art.id)
+            tag_name = list(TagInfo.objects.filter(id=tag_id))
+            for p in tag_name:
 
-            if id_by_tag:
-                image_list.append(id_by_tag)
-            else:
                 id_by_tag = []
-                image_list.append(id_by_tag)
+                for q in list(ArtInfo.objects.filter(tag=p.tag.id, value=p.name)):
+                    id_by_tag.append(q.art.id)
+
+                if id_by_tag:
+                    image_list.append(id_by_tag)
+                else:
+                    id_by_tag = []
+                    image_list.append(id_by_tag)
 
     x = image_list.pop()
     for art_id in image_list:
@@ -133,7 +135,7 @@ def search_image(request):
                 for q in list(ArtInfo.objects.filter(art=int(p))):
                     import_info = {'name': q.tag.name, 'value': q.value}
                     info_list.append(import_info)
-                    art_info = {'art_id': b.id, 'user': b.user, 'group': b.group, 'time': b.upload_time, 'version': b.version, 'preview': b.screen_shot, 'info_list': info_list}
+                art_info = {'art_id': b.id, 'user': b.user, 'group': b.group, 'time': b.upload_time, 'version': b.version, 'preview': b.screen_shot, 'info_list': info_list}
                 art_list.append(art_info)
 
         def artid(a):

@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.http import HttpResponse, HttpResponseRedirect
 from home.models import *
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import os
 import re
@@ -18,14 +19,28 @@ def is_sign_in(request):
         else:
             return ('/login/menu/')
 
+def pagination(request, number, target):
+
+    paginator = Paginator(target, number)
+    page = request.GET.get('page')
+    try:
+        target = paginator.page(page)
+    except PageNotAnInteger:
+        target = paginator.page(1)
+    except EmptyPage:
+        target = paginator.page(paginator.num_pages)
+
+    return (target)
+
 
 def art_count(request):
 
     user_id = request.user.id
 
-    darts = list(Art.objects.filter(user=user_id, screen_shot="", resource_file=""))
-    if darts:
-        ddsc = len(darts)
+    dart_list = list(Art.objects.filter(user=user_id, screen_shot="", resource_file=""))
+    if dart_list:
+        ddsc = len(dart_list)
+        darts = pagination(request, 10, dart_list)
     else:
         ddsc = 0
         darts = []
@@ -37,21 +52,29 @@ def art_count(request):
         ddsh = 0
         sarts = []
 
-    sart_list = []
+    s_list = []
     for p in sarts:
         if p not in darts:
-            sart_list.append(p)
+            s_list.append(p)
 
-    parts = list(Art.objects.filter(user=user_id, is_audit=1, is_pass=1))
-    if parts:
-        psh = len(parts)
+    if s_list:
+        sart_list = pagination(request, 10, s_list)
+    else:
+        sart_list = []
+
+
+    part_list = list(Art.objects.filter(user=user_id, is_audit=1, is_pass=1))
+    if part_list:
+        psh = len(part_list)
+        parts = pagination(request, 10, part_list)
     else:
         psh = 0
         parts = []
 
-    farts = list(Art.objects.filter(user=user_id, is_audit=1, is_pass=0))
-    if farts:
-        fsh = len(farts)
+    fart_list = list(Art.objects.filter(user=user_id, is_audit=1, is_pass=0))
+    if fart_list:
+        fsh = len(fart_list)
+        farts = pagination(request, 10, fart_list)
     else:
         fsh = 0
         farts = []

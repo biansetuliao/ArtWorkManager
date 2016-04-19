@@ -28,7 +28,7 @@
                             <textarea class="form-control" disabled>{{ p.description }}</textarea>
                         </td>
                         <td>
-                            <a href="/art/upload/?art_id={{ p.id }}">
+                            <a href="javascript:AjaxGet('/art/upload/?art_id={{ p.id }}')">
                                 <button class="btn btn-primary btn-block btn-sm" style="width: 100%;">上传</button>
                             </a>
                         </td>
@@ -38,30 +38,42 @@
         </tbody>
     </table>
 
-    <nav style="text-align: center">
-        <ul class="pagination">
-            <li>
-                <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" aria-label="Previous">上一页</a>
-            </li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-                <a href="#" aria-label="Previous">下一页</a>
-            </li>
-            <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <div id="popDiv" class="mydiv" style="display:none;"></div>
+    <div id="bg" class="bg" style="display:none;"></div>
+    <iframe id='popIframe' class='popIframe' frameborder='0'></iframe>
+
+    {% if darts and darts.paginator.num_pages != 1 %}
+        <nav style="text-align: center;">
+            <ul class="pagination">
+                <li>
+                    <a href="/art/?page=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li>
+                    {% if darts.has_previous %}
+                        <a href="/art/?page={{ darts.previous_page_number }}" aria-label="Previous">上一页</a>
+                    {% else %}
+                        <a href="/art/?page={{ darts.number }}" aria-label="Previous">上一页</a>
+                    {% endif %}
+                </li>
+                {% for p in darts.paginator.page_range %}
+                    <li {% if darts.number == p %}class="active"{% endif %}><a href="/art/?page={{ p }}">{{ p }}</a></li>
+                {% endfor %}
+                <li>
+                    {% if darts.has_next %}
+                        <a href="/art/?page={{ darts.next_page_number }}" aria-label="Previous">下一页</a>
+                    {% else %}
+                        <a href="/art/?page={{ darts.number }}" aria-label="Previous">下一页</a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a href="/art/?page={{ darts.paginator.num_pages }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
 
 {% endblock %}

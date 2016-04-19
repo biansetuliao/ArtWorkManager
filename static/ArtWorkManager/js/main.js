@@ -66,30 +66,30 @@ function search_tag(object){
 
 
 //跳转到通过审核和未通过审核页面
-function to_audit(str){
-    if (str == "0")
-    {
-        to_url = "/plan/faild_task/"
-    }
-    else if (str == "1")
-    {
-        to_url = "/plan/pass_task/"
-    }
-    var xmlhttp;
-    if (window.XMLHttpRequest){
-        xmlhttp = new XMLHttpRequest();
-    }
-    else{
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange=function(){
-        if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-            $("#audit_task").html(xmlhttp.responseText);
-        }
-    };
-    xmlhttp.open("GET", to_url, true);
-    xmlhttp.send();
-}
+//function to_audit(str){
+//    if (str == "0")
+//    {
+//        to_url = "/plan/faild_task/"
+//    }
+//    else if (str == "1")
+//    {
+//        to_url = "/plan/pass_task/"
+//    }
+//    var xmlhttp;
+//    if (window.XMLHttpRequest){
+//        xmlhttp = new XMLHttpRequest();
+//    }
+//    else{
+//        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+//    }
+//    xmlhttp.onreadystatechange=function(){
+//        if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+//            $("#audit_task").html(xmlhttp.responseText);
+//        }
+//    };
+//    xmlhttp.open("GET", to_url, true);
+//    xmlhttp.send();
+//}
 
 
 //搜索资源//
@@ -158,3 +158,54 @@ function search_gtt(object){
 
 
 
+//弹出层上传图片
+function showDiv(){
+    document.getElementById('popDiv').style.display='block';
+    document.getElementById('popIframe').style.display='block';
+    document.getElementById('bg').style.display='block';
+}
+function closeDiv(){
+    document.getElementById('popDiv').style.display='none';
+    document.getElementById('bg').style.display='none';
+    document.getElementById('popIframe').style.display='none';
+}
+
+function createXMLHttps(){
+    var ret = null;
+    try {
+        ret = new ActiveXObject('Msxml2.XMLHTTP');
+    }
+    catch (e){
+        try {
+            ret = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        catch (ee) {
+            ret = null;
+        }
+    }
+    if (!ret&&typeof XMLHttpRequest !='undefined')
+        ret = new XMLHttpRequest();
+    return ret;
+}
+
+function AjaxGet(URL){
+    showDiv();
+    var xmlhttp;
+    if (window.XMLHttpRequest){
+        xmlhttp = new XMLHttpRequest();
+    }
+    else{
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("Get",URL,true);
+    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status==404){
+            document.getElementById("popDiv").innerHTML='读取页面失败,文件'+URL+'不存在!';
+        }
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            document.getElementById("popDiv").innerHTML=xmlhttp.responseText;
+        }
+    };
+    xmlhttp.send(null);
+}

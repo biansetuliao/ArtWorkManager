@@ -40,30 +40,38 @@
         </tbody>
     </table>
 
-    <nav style="text-align: center">
-        <ul class="pagination">
-            <li>
-                <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" aria-label="Previous">上一页</a>
-            </li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-                <a href="#" aria-label="Previous">下一页</a>
-            </li>
-            <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    {% if farts and farts.paginator.num_pages != 1 %}
+        <nav style="text-align: center;">
+            <ul class="pagination">
+                <li>
+                    <a href="/art/faild/?page=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li>
+                    {% if farts.has_previous %}
+                        <a href="/art/faild/?page={{ farts.previous_page_number }}" aria-label="Previous">上一页</a>
+                    {% else %}
+                        <a href="/art/faild/?page={{ farts.number }}" aria-label="Previous">上一页</a>
+                    {% endif %}
+                </li>
+                {% for p in farts.paginator.page_range %}
+                    <li {% if farts.number == p %}class="active"{% endif %}><a href="/art/faild/?page={{ p }}">{{ p }}</a></li>
+                {% endfor %}
+                <li>
+                    {% if farts.has_next %}
+                        <a href="/art/faild/?page={{ farts.next_page_number }}" aria-label="Previous">下一页</a>
+                    {% else %}
+                        <a href="/art/faild/?page={{ farts.number }}" aria-label="Previous">下一页</a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a href="/art/faild/?page={{ farts.paginator.num_pages }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
 
 {% endblock %}
