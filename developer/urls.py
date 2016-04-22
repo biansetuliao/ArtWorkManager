@@ -9,4 +9,6 @@ urlpatterns = [
 
     url(r'^search/$', views.search_image, name='search'),
 
+    url(r'^download/$', views.download, name='download'),
+
 ]

@@ -19,6 +19,12 @@ urlpatterns = [
 
     url(r'^task_audit/(?P<art_id>\d+)/$', views.AuditTaskView.as_view(), name='task_audit'),
 
+    url(r'^tag_order/$', views.PlanOrderView.as_view(), name='tag_order'),
+
+    url(r'^order/$', views.order, name='order'),
+
+    url(r'^sort/$', views.sort, name='sort'),
+
     url(r'^create_task/$', views.create_task, name='create_task'),
 
     url(r'^del_task/$', views.del_task, name='del_task'),

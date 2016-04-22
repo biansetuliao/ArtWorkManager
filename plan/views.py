@@ -284,6 +284,28 @@ class FaildTaskView(generic.View):
                       context)
 
 
+class PlanOrderView(generic.View):
+    templates_file = 'PlanOrder.html'
+
+    def get(self, request):
+
+        is_log_in = is_sign_in(request)
+        if is_log_in:
+            return HttpResponseRedirect(is_log_in)
+
+        groups = list(Group.objects.all())
+        if not groups:
+            groups = []
+
+        context = {
+            'groups': groups
+        }
+
+        return render(request,
+                      self.templates_file,
+                      context)
+
+
 @csrf_exempt
 def search_bv(request):
 
@@ -491,3 +513,58 @@ def audit(request):
 
     else:
         return HttpResponse("审核失败!")
+
+
+def order(request):
+
+    if 'group_id' in request.GET and request.GET['group_id']:
+        group_id = request.GET['group_id']
+    else:
+        return HttpResponse("Group ID 错误或不存在!")
+
+    sorts = list(TagOrder.objects.filter(group=int(group_id)).order_by('sort'))
+    if not sorts:
+        sorts = []
+
+    gtts = list(GroupToTag.objects.filter(group=int(group_id)))
+    if not gtts:
+        gtts = []
+
+    context = {
+        'group_id': group_id,
+        'gtts': gtts,
+        'sorts': sorts
+    }
+
+    return render(request, 'ajax/OrderSort.html', context)
+
+
+def sort(request):
+
+    if 'group_id' in request.POST and request.POST['group_id']:
+        group_id = request.POST['group_id']
+    else:
+        return HttpResponse("Group ID 不存在或错误!")
+
+    if 'tag_list' in request.POST and request.POST['tag_list']:
+        tag_list = request.POST['tag_list']
+        req = simplejson.loads(tag_list)
+    else:
+        return HttpResponse('Tag_list 错误或不存在!')
+
+    #delete group in tagorder
+    sorts = TagOrder.objects.filter(group=int(group_id))
+    if sorts:
+        sorts.delete()
+
+    groups = list(Group.objects.filter(id=int(group_id))).pop()
+    if not groups:
+        return HttpResponse('Group ID 错误!')
+
+    for p in req.keys():
+        add_sort = TagOrder(group=groups,
+                            code=req[p],
+                            sort=int(p))
+        add_sort.save()
+
+    return HttpResponseRedirect('/plan/tag_order/')

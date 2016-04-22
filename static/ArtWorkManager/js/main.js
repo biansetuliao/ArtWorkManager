@@ -209,3 +209,32 @@ function AjaxGet(URL){
     };
     xmlhttp.send(null);
 }
+
+
+//排序
+function Order(str)
+{
+    var xmlhttp;
+    if (str=="")
+    {
+        $('#orderlist').html("<h4>类别不存在或错误!</h4>");
+        return;
+    }
+    if (window.XMLHttpRequest)
+    {
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+        if(xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            $('#orderlist').html(xmlhttp.responseText);
+        }
+    };
+    xmlhttp.open("GET","/plan/order/?group_id=" + str,true);
+    xmlhttp.send();
+}

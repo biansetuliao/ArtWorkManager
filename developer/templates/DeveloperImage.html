@@ -7,17 +7,26 @@
             <div class="artinfo">
                 <div class="row">
                     <div class="col-xs-7">
-                        <h4 style="margin-left: 10px;">预览图<small>-点击图片可看原图</small></h4>
+                        <h4 style="margin-left: 10px;">预览图<small>-点击图片可看大图</small></h4>
                         <div class="preview">
-                            <div id="gallery">
+                            <script>
+                                $(function() {
+                                    $('#gallery{{ p.art_id }}').poptrox({
+                                        usePopupCaption: true
+                                    });
+                                });
+                            </script>
+                            <div id="gallery{{ p.art_id }}" style="text-align: center;">
                                 <a href="{{ MEDIA_URL }}{{ p.preview }}">
-                                    <img width="100%" src="{{ MEDIA_URL }}{{ p.preview }}"/>
+                                    <img width="{{ p.scale }}" src="{{ MEDIA_URL }}{{ p.preview }}"/>
                                 </a>
                             </div>
                         </div>
-                        <form action="" method="GET">
+                        <form action="{% url 'developer:download' %}" method="GET">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ p.art_id }}" name="art_id">
+                            <input type="hidden" value="{{ p.group.id }}" name="group_id">
                             <button class="btn btn-sm btn-primary btn-block">资源下载</button>
-                            <input type="hidden" value="{{ p.id }}" name="art_id">
                         </form>
                     </div>
                     <div class="col-xs-5">
@@ -36,7 +45,7 @@
                         </div>
                         <div class="row" id="pic_info">
                             <div class="col-xs-5">上传时间</div>
-                            <div class="col-xs-7">{{ p.time }}</div>
+                            <div class="col-xs-7" style="font-size: 10px;">{{ p.time }}</div>
                         </div>
                         {% for q in p.info_list %}
                             <div class="row" id="pic_info">

@@ -45,7 +45,17 @@ class ArtAdmin(admin.ModelAdmin):
     get_group.admin_order_field = 'Group__name'
 
 
+class TagOrderAdmin(admin.ModelAdmin):
+    list_display = ('get_group', 'code', 'sort')
+
+    def get_group(self, obj):
+            return obj.group.name
+    get_group.short_description = 'Group'
+    get_group.admin_order_field = 'Group__name'
+
+
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(TagInfo, TagInfoAdmin)
 admin.site.register(Art, ArtAdmin)
+admin.site.register(TagOrder, TagOrderAdmin)

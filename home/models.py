@@ -49,7 +49,6 @@ class TagOrder(models.Model):
     group = models.ForeignKey(Group)
     code = models.CharField(max_length=100)
     sort = models.IntegerField(null=False)
-    is_select = models.BooleanField(default=False)
 
 
 # Art

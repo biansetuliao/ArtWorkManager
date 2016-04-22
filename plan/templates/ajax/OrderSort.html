@@ -1,0 +1,56 @@
+<script>
+	$(function(){
+        //没有拖动排序，默认为系统自动生成的顺序
+        var objjson = {};
+        var num = 1;
+        $(".sortable li").each(function(){
+            objjson[num] = $(this).attr("id");
+            num++;
+        });
+        $('#tag_list').val(JSON.stringify(objjson));
+
+        //拖动排序
+		$(".sortable").sortable({
+            placeholder: "ui-state-highlight" , //拖动时，用css
+            cursor: "move",
+            items :"li",                        //只是li可以拖动
+            opacity: 0.6,                       //拖动时，透明度为0.6
+            revert: true,                       //释放时，增加动画
+            update : function(event, ui){       //更新排序之后
+                var objjson = {};
+                var num = 1;
+                $(".sortable li").each(function(){
+                    objjson[num] = $(this).attr("id");
+                    num++;
+                });
+                $('#tag_list').val(JSON.stringify(objjson))
+            }
+        });
+	});
+</script>
+
+<div class="order">
+    <ul class="sortable">
+        {% if sorts %}
+            {% for p in sorts %}
+                <li id="{{ p.code }}">{{ p.code }}</li>
+            {% endfor %}
+        {% else %}
+            <li id="group">group</li>
+            {% for p in gtts %}
+                <li id="{{ p.tag.name }}">{{ p.tag.name }}</li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</div>
+
+<input type="hidden" name="group_id" value="{{ group_id }}">
+<input type="hidden" name="tag_list" id="tag_list" value="">
+<div class="add">
+    <div class="col-xs-3">
+        <button class="btn btn-primary btn-block btn-sm" type="submit">排序</button>
+    </div>
+    <div class="col-xs-9">
+        如果没有进行排序,将以以上初始顺序为默认顺序
+    </div>
+</div>
