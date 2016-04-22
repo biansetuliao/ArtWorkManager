@@ -212,8 +212,10 @@ def download(request):
 
                 art_info = list(ArtInfo.objects.filter(art=int(art_id), tag=int(tags.pop().id)))
                 if art_info:
-                    f = conversion(art_info.pop().value)
-                    filename_list.append(f)
+                    for p in art_info:
+                        tag_code = list(TagInfo.objects.filter(tag=int(p.tag.id), name=p.value))
+                        f = conversion(tag_code.pop().code)
+                        filename_list.append(f)
                 else:
                     f = conversion(0)
                     filename_list.append(f)
