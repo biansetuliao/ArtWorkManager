@@ -229,7 +229,8 @@ def download(request):
             return HttpResponse("Art ID 错误或不存在!")
 
         for p in art_info:
-            f = conversion(p.value)
+            tag_code = list(TagInfo.objects.filter(tag=int(p.tag.id), name=p.value))
+            f = conversion(tag_code.pop().code)
             filename_list.append(f)
 
     file_name = ""
