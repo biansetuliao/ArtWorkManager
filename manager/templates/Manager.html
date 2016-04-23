@@ -41,7 +41,12 @@
         </table>
     </form>
     {% if error_txt %}
-        <div class="error">{{ error_txt }}</div>
+{#        <script>#}
+{#            $(function() {#}
+{#                alert('{{ error_txt }}');#}
+{#            });#}
+{#        </script>#}
+        <div class="alert alert-danger" role="alert" style="text-align: center;">{{ error_txt }}</div>
     {% endif %}
     <table class="table" style="text-align: center;">
         <thead style="font-size: 14px; font-weight: 800;">
