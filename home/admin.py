@@ -12,6 +12,10 @@ class GroupAdmin(admin.ModelAdmin):
     inlines = [GroupToTagInline]
 
 
+class GroupFormatAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+
+
 class TagAdmin(admin.ModelAdmin):
     list_display = ("code", "name", )
 
@@ -59,3 +63,4 @@ admin.site.register(Tag, TagAdmin)
 admin.site.register(TagInfo, TagInfoAdmin)
 admin.site.register(Art, ArtAdmin)
 admin.site.register(TagOrder, TagOrderAdmin)
+admin.site.register(GroupFormat, GroupFormatAdmin)

@@ -22,6 +22,10 @@ class Group(models.Model):
         return self.name
 
 
+class GroupFormat(models.Model):
+    name = models.CharField(max_length=100)
+
+
 # Tag and Group To Tag
 
 class Tag(models.Model):

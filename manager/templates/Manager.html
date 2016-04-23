@@ -20,14 +20,22 @@
                     <td>
                         <input type="text" class="form-control input-sm" style="width: 200px;" name="name" placeholder="名称">
                     </td>
-                    <td style="vertical-align: middle;"><strong>Format</strong></td>
-                    <td>
-                        <input type="text" class="form-control input-sm" name="format" placeholder="文件类型">
-                    </td>
-                    <td>
-                        <button id="add" class="btn btn-primary btn-block btn-sm" type="submit" style="width: 100%;">添加</button>
-                        <input type="hidden" name="GInfo" value="group">
-                    </td>
+                    {% if formats %}
+                        <td style="vertical-align: middle;"><strong>Format</strong></td>
+                        <td>
+                            <select name="format" class="form-control input-sm" style="width: 100px">
+                                {% for f in formats  %}
+                                    <option value="{{ f.name }}">{{ f.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <button id="add" class="btn btn-primary btn-block btn-sm" type="submit" style="width: 100%;">添加</button>
+                            <input type="hidden" name="GInfo" value="group">
+                        </td>
+                    {% else %}
+                        <td colspan="3" style="vertical-align: middle;">请先<a href="/admin/home/groupformat/add/" target="view_window">添加文件类型</a>,再添加类别!</td>
+                    {% endif %}
                 </tr>
             </tbody>
         </table>

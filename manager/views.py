@@ -34,6 +34,10 @@ class IndexView(generic.View):
         else:
             group_list = []
 
+        formats = list(GroupFormat.objects.all())
+        if not formats:
+            formats = []
+
         if 'error' in request.GET and request.GET['error']:
             error_code = request.GET['error']
         else:
@@ -51,6 +55,7 @@ class IndexView(generic.View):
         context = {
             'group_list': sorted(group_list, key=lambda x: x['code']),
             'error_txt': error_txt,
+            'formats': formats,
         }
 
         return render(request,
