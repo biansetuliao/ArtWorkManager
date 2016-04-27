@@ -5,7 +5,7 @@
 
     <div class="row" style="margin-top: 20px;">
         <div class="col-xs-6">
-            <a href="/plan/audit_plan/">
+            <a href="/plan/audit_admin/">
                 <div class="admin_task">
                     <span class="glyphicon glyphicon-ok-circle" style="color: green; font-size: 30px;"></span>
                     <div class="task_font">已提交资源任务</div>
@@ -64,30 +64,38 @@
         </tbody>
     </table>
 
-    <nav style="text-align: center">
-        <ul class="pagination">
-            <li>
-                <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" aria-label="Previous">上一页</a>
-            </li>
-            <li class="active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-                <a href="#" aria-label="Previous">下一页</a>
-            </li>
-            <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    {% if narts and narts.paginator.num_pages != 1 %}
+        <nav style="text-align: center;">
+            <ul class="pagination">
+                <li>
+                    <a href="/plan/audit_admin/?page=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li>
+                    {% if narts.has_previous %}
+                        <a href="/plan/audit_admin/?page={{ narts.previous_page_number }}" aria-label="Previous">上一页</a>
+                    {% else %}
+                        <a href="/plan/audit_admin/?page={{ narts.number }}" aria-label="Previous">上一页</a>
+                    {% endif %}
+                </li>
+                {% for p in narts.paginator.page_range %}
+                    <li {% if narts.number == p %}class="active"{% endif %}><a href="/plan/audit_admin/?page={{ p }}">{{ p }}</a></li>
+                {% endfor %}
+                <li>
+                    {% if narts.has_next %}
+                        <a href="/plan/audit_admin/?page={{ narts.next_page_number }}" aria-label="Previous">下一页</a>
+                    {% else %}
+                        <a href="/plan/audit_admin/?page={{ narts.number }}" aria-label="Previous">下一页</a>
+                    {% endif %}
+                </li>
+                <li>
+                    <a href="/plan/audit_admin/?page={{ narts.paginator.num_pages }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
 
 {% endblock %}
