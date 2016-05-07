@@ -103,7 +103,7 @@ else:
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'db_art_work_manager',
             'USER': 'root',
-            'PASSWORD': 'mysqlroot',
+            'PASSWORD': 'root',
             'HOST': 'localhost',
         }
     }

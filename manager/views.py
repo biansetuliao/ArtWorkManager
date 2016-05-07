@@ -154,6 +154,10 @@ class GroupUpdateView(generic.View):
         if not gtt_list:
             gtt_list = []
 
+        formats = list(GroupFormat.objects.all())
+        if not formats:
+            formats = []
+
         if 'error' in request.GET and request.GET['error']:
             error_code = request.GET['error']
         else:
@@ -175,7 +179,8 @@ class GroupUpdateView(generic.View):
             'tags': tags,
             'gtt_list': gtt_list,
             'group_id': group_id,
-            'error_txt': error_txt
+            'error_txt': error_txt,
+            'formats': formats
         }
 
         return render(request,

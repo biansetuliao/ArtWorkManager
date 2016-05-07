@@ -35,7 +35,11 @@
                     <tr>
                         <td style="vertical-align: middle;"><strong>文件类型 Format</strong></td>
                         <td  style="width: 80%;" colspan="2">
-                            <input type="text" class="form-control input-sm" style="width: 300px;" name="format" value="{{ p.format }}">
+                            <select name="format" style="width: 300px;" class="form-control input-sm">
+                                {% for q in formats %}
+                                    <option value="{{ q.name }}" {% if p.format == q.name %}selected{% endif %}>{{ q.name }}</option>
+                                {% endfor %}
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -54,7 +58,7 @@
     </table>
 
     {% if error_txt %}
-        <div class="error" style="margin-bottom: 20px;">{{ error_txt }}</div>
+        <div class="alert alert-danger" role="alert" style="text-align: center;">{{ error_txt }}</div>
     {% endif %}
 
     <div class="row">

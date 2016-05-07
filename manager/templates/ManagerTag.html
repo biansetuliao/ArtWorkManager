@@ -28,9 +28,11 @@
             </tbody>
         </table>
     </form>
+
     {% if error_txt %}
-        <div class="error">{{ error_txt }}</div>
+        <div class="alert alert-danger" role="alert" style="text-align: center;">{{ error_txt }}</div>
     {% endif %}
+
     <table class="table" style="text-align: center;">
         <thead style="font-size: 14px; font-weight: 800;">
             <tr style="font-size: 20px; text-align: left;">

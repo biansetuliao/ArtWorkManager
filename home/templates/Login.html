@@ -21,9 +21,7 @@
                     <input type="password" name="password" class="form-control" placeholder="Password">
                 </div>
                 {% if error_txt %}
-                    <div class="error">
-                        {{ error_txt }}
-                    </div>
+                    <div class="alert alert-danger" role="alert" style="text-align: center; width: 90%; margin: 0 auto; height: 30px; padding: 0; line-height: 30px;">{{ error_txt }}</div>
                 {% endif %}
                 <div class="sign_in">
                     <input type="submit" class="btn btn-default btn-sm" id="sign" value="LOG IN">
