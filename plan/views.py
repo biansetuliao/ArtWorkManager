@@ -423,7 +423,7 @@ def create_task(request):
                               value=p.name)
             up_info.save()
 
-    return HttpResponseRedirect("/plan/")
+    return HttpResponseRedirect("/plan/admin_plan/")
 
 
 def del_task(request):

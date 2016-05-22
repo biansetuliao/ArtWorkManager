@@ -60,7 +60,16 @@
     </table>
 
     {% if error_txt %}
-        <div class="alert alert-danger" role="alert" style="text-align: center;">{{ error_txt }}</div>
+        <script>
+            function error_hide(){
+                $("#error_txt").fadeOut("5000");
+            }
+            $(function() {
+                $("#error_txt").slideDown("slow");
+                setTimeout('error_hide()',5000);
+            });
+        </script>
+        <div id="error_txt" class="alert alert-danger" role="alert" style="text-align: center; display: none;">{{ error_txt }}</div>
     {% endif %}
 
 {% endblock %}

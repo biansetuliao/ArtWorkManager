@@ -128,6 +128,11 @@ a:hover{
     margin: 0;
     height: 50px;
     line-height: 50px;
+    color: #ffffff;
+}
+
+.menus .row a h3{
+    color: #ffffff;
 }
 
 .menus .row h3 small{

@@ -53,7 +53,16 @@
         </table>
 
         {% if error_txt and error_code == '0' %}
-            <div class="alert alert-danger" role="alert" style="text-align: center;">{{ error_txt }}</div>
+            <script>
+                function error_hide(){
+                    $("#error_txt").fadeOut("5000");
+                }
+                $(function() {
+                    $("#error_txt").slideDown("slow");
+                    setTimeout('error_hide()',5000);
+                });
+            </script>
+            <div id="error_txt" class="alert alert-danger" role="alert" style="text-align: center; display: none;">{{ error_txt }}</div>
         {% endif %}
 
         <form method="post" action="{% url 'manager:infoadd' %}">
@@ -89,7 +98,16 @@
     {% endfor %}
 
     {% if error_txt and error_code != '0' %}
-        <div class="error" style="margin-bottom: 20px;">{{ error_txt }}</div>
+        <script>
+            function error_hide(){
+                $("#error_txt").fadeOut("5000");
+            }
+            $(function() {
+                $("#error_txt").slideDown("slow");
+                setTimeout('error_hide()',5000);
+            });
+        </script>
+        <div id="error_txt" class="alert alert-danger" role="alert" style="text-align: center; display: none;">{{ error_txt }}</div>
     {% endif %}
 
     <table class="table" style="text-align: center;">
