@@ -80,14 +80,14 @@ def art_count(request):
         farts = []
 
     context = {
-        "darts": darts,
-        "ddsc": ddsc,
-        "sart_list": sart_list,
-        "ddsh": ddsh,
-        "parts": parts,
-        "psh": psh,
-        "farts": farts,
-        "fsh": fsh,
+        "darts": darts, # 未提交的总资源
+        "ddsc": ddsc, # 未提交的总资源的个数
+        "sart_list": sart_list, # 待审核的资源
+        "ddsh": ddsh, # 待审核资源的个数
+        "parts": parts, # 通过的资源
+        "psh": psh, # 通过资源的个数
+        "farts": farts, # 未通过的资源
+        "fsh": fsh, # 未通过资源的个数
     }
 
     return (context)
@@ -184,14 +184,14 @@ class UploadTaskView(generic.View):
                         artinfo_list.append(art_info)
                 else:
                     artinfo_list = []
-                a = {"id": p.id, "group": p.group.name, "big_version": p.version, "description": p.description, 'art_info': artinfo_list}
+                a = {"id": p.id, "format": p.group.format, "group": p.group.name, "big_version": p.version, "description": p.description, 'art_info': artinfo_list}
                 art_list.append(a)
         else:
             art_list = []
 
         context = {
-            "art_list": art_list,
-            "art_id": art_id,
+            "art_list": art_list, # 资源信息
+            "art_id": art_id, # 资源ID
         }
 
         return render(request,
@@ -226,7 +226,7 @@ class UpdateUploadTaskView(generic.View):
                         artinfo_list.append(art_info)
                 else:
                     artinfo_list = []
-                a = {"id": p.id, "group": p.group.name, "big_version": p.version, "reason": p.reason, 'art_info': artinfo_list}
+                a = {"id": p.id, "format": p.group.format, "group": p.group.name, "big_version": p.version, "reason": p.reason, 'art_info': artinfo_list}
                 art_list.append(a)
         else:
             art_list = []

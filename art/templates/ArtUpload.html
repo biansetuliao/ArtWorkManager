@@ -27,6 +27,10 @@
                     <div class="col-xs-5">类别</div>
                     <div class="col-xs-7">{{ p.group }}</div>
                 </div>
+                <div id="pic_info">
+                    <div class="col-xs-5">上传文件类型</div>
+                    <div class="col-xs-7">{{ p.format }}</div>
+                </div>
                 {% for q in p.art_info %}
                     <div id="pic_info">
                         <div class="col-xs-5">{{ q.name }}</div>
